@@ -1,11 +1,11 @@
 {
   "name": "best-bible",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "test": "node -r esm test/index.js",
     "build:cjs": "cp src/index.js dist/index.cjs.js",
-    "build:esm": "npx babel src/index.js --out-file dist/index.esm.js --presets @babel/preset-env",
+    "build:esm": "npx babel src --out-dir dist --presets @babel/preset-env --copy-files",
     "build": "npm run build:cjs && npm run build:esm",
     "prepublishOnly": "npm run build"
   },
@@ -38,5 +38,25 @@
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./dist"
+          ],
+          "alias": {
+            "./data/bible.json": "./data/bible.json",
+            "./utils/abbreviations": "./utils/abbreviations",
+            "./utils/validation": "./utils/validation"
+          }
+        }
+      ]
+    ]
   }
 }
