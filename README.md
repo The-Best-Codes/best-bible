@@ -202,7 +202,7 @@ When calling any function which requires a book name, use a book name from the f
 
 </details>
 
-When calling any function which requires a chapter or verse, use a positive integer. You will never need to use a chapter number larger than 150, or a verse number larger than 176. [1](https://www.biblegateway.com/passage/?search=Psalms+150&version=KJV) [2](https://www.biblegateway.com/passage/?search=Psalms+119&version=KJV).
+When calling any function which requires a chapter or verse, use a positive integer. You will never need to use a chapter number larger than 150, or a verse number larger than 176.[^1] [^2]
 
 ## Contributing
 
@@ -211,3 +211,10 @@ Contributions to Best Bible are welcome! If you find any issues or have suggesti
 ## License
 
 Best Bible is open-source software licensed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
+---
+
+_Footnotes_
+
+[^1]: [Psalms 150 - KJV](https://www.biblegateway.com/passage/?search=Psalms+150&version=KJV)
+[^2]: [Psalms 119 - KJV](https://www.biblegateway.com/passage/?search=Psalms+119&version=KJV)
