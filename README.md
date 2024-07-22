@@ -1,4 +1,5 @@
 # Best Bible
+
 Fetch, parse, and analyze the Bible easily with JavaScript
 
 Best Bible is a powerful and easy-to-use Node.js package that provides a simple way to access and retrieve Bible verses, chapters, and books. It offers a comprehensive set of functions to fetch Bible data in various formats, making it convenient for developers to integrate Bible functionality into their applications.
@@ -21,7 +22,6 @@ const { (functions) } = require('best-bible');
 
 Simple import each function you need to use in the curly braces `{}`, seperated by commas (`,`).
 
-
 ### Getting Bible Data
 
 Best Bible provides several functions to retrieve Bible data:
@@ -32,6 +32,7 @@ Best Bible provides several functions to retrieve Bible data:
 - `getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default")`: Retrieves a range of verses from the Bible.
 
 The `outputType` parameter determines the format of the returned data:
+
 - `"default"`: Returns an array of verse content (default).
 - `"indexed"`: Returns an array of objects containing verse details (key, book, chapter, verse, and content).
 - `"string"`: Returns a string representation of the verse(s) in the format `"Book Chapter:Verse - Content"`.
@@ -48,30 +49,39 @@ Best Bible also provides utility functions for querying Bible metadata:
 ### Example Usage
 
 ```javascript
-const { getVerse, getChapter, getBook, getRange, getChapterCount, getVerseCount, getBibleBooks, resolveAbbreviation } = require('best-bible');
+const {
+  getVerse,
+  getChapter,
+  getBook,
+  getRange,
+  getChapterCount,
+  getVerseCount,
+  getBibleBooks,
+  resolveAbbreviation,
+} = require("best-bible");
 
 // Get a specific verse
-const verse = getVerse('Genesis', 1, 1);
+const verse = getVerse("Genesis", 1, 1);
 console.log(verse);
 
 // Get a chapter
-const chapter = getChapter('Psalms', 23, 'string');
+const chapter = getChapter("Psalms", 23, "string");
 console.log(chapter);
 
 // Get a book
-const book = getBook('John', 'indexed');
+const book = getBook("John", "indexed");
 console.log(book);
 
 // Get a range of verses
-const range = getRange('Matthew', 5, 1, 'Matthew', 5, 10);
+const range = getRange("Matthew", 5, 1, "Matthew", 5, 10);
 console.log(range);
 
 // Get the number of chapters in a book
-const chapterCount = getChapterCount('Revelation');
+const chapterCount = getChapterCount("Revelation");
 console.log(chapterCount);
 
 // Get the number of verses in a chapter
-const verseCount = getVerseCount('Genesis', 1);
+const verseCount = getVerseCount("Genesis", 1);
 console.log(verseCount);
 
 // Get all the books in the Bible
@@ -79,7 +89,7 @@ const books = getBibleBooks();
 console.log(books);
 
 // Resolve a book abbreviation
-const bookName = resolveAbbreviation('Gen');
+const bookName = resolveAbbreviation("Gen");
 console.log(bookName);
 ```
 
@@ -90,16 +100,109 @@ The `outputType` parameter controls what format the Bible data is output as.
 `"default"` will return each verse as an item in an array, for example:
 
 ```json
-[
-  "verse1",
-  "verse2",
-  "verse3"
-]
+["verse1", "verse2", "verse3"]
 ```
 
 `indexed` will return several JSON objects in an array, each verse with its metadata. See below:
 
-----Finish this----
+```json
+[
+  {
+    "key": "Genesis 1:1",
+    "book": "Genesis",
+    "chapter": 1,
+    "verse": 1,
+    "content": "In the beginning, God created the heavens and the earth."
+  }
+]
+```
+
+`"string"` will return each verse as a string, for example:
+
+```yml
+"Book Chapter:Verse - Content"
+```
+
+### Data Input
+
+When calling any function which requires a book name, use a book name from the following list:
+
+<details>
+<summary>Click to view</summary>
+
+```json
+[
+  "Genesis",
+  "Exodus",
+  "Leviticus",
+  "Numbers",
+  "Deuteronomy",
+  "Joshua",
+  "Judges",
+  "Ruth",
+  "1 Samuel",
+  "2 Samuel",
+  "1 Kings",
+  "2 Kings",
+  "1 Chronicles",
+  "2 Chronicles",
+  "Ezra",
+  "Nehemiah",
+  "Esther",
+  "Job",
+  "Psalms",
+  "Proverbs",
+  "Ecclesiastes",
+  "Isaiah",
+  "Jeremiah",
+  "Lamentations",
+  "Ezekiel",
+  "Daniel",
+  "Hosea",
+  "Joel",
+  "Amos",
+  "Obadiah",
+  "Jonah",
+  "Micah",
+  "Nahum",
+  "Habakkuk",
+  "Zephaniah",
+  "Haggai",
+  "Zechariah",
+  "Malachi",
+  "Matthew",
+  "Mark",
+  "Luke",
+  "John",
+  "Acts",
+  "Romans",
+  "1 Corinthians",
+  "2 Corinthians",
+  "Galatians",
+  "Ephesians",
+  "Philippians",
+  "Colossians",
+  "1 Thessalonians",
+  "2 Thessalonians",
+  "1 Timothy",
+  "2 Timothy",
+  "Titus",
+  "Philemon",
+  "Hebrews",
+  "James",
+  "1 Peter",
+  "2 Peter",
+  "1 John",
+  "2 John",
+  "3 John",
+  "Jude",
+  "Revelation"
+]
+```
+
+</details>
+
+When calling any function which requires a chapter or verse, use a positive integer. You will never need to use a chapter number larger than 150, or a verse number larger than 176. [1](https://www.biblegateway.com/passage/?search=Psalms+150&version=KJV) [2](https://www.biblegateway.com/passage/?search=Psalms+119&version=KJV).
 
 ## Contributing
 
@@ -107,5 +210,4 @@ Contributions to Best Bible are welcome! If you find any issues or have suggesti
 
 ## License
 
-Best Bible is open-source software licensed under the [GNU General Public License Version 3]([https://opensource.org/licenses/MIT](https://www.gnu.org/licenses/gpl-3.0.en.html)).
-```
+Best Bible is open-source software licensed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
