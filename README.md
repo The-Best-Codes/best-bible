@@ -31,12 +31,6 @@ Best Bible provides several functions to retrieve Bible data:
 - `getBook(bookName, outputType = "default")`: Retrieves a specific book from the Bible.
 - `getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default")`: Retrieves a range of verses from the Bible.
 
-The `outputType` parameter determines the format of the returned data:
-
-- `"default"`: Returns an array of verse content (default).
-- `"indexed"`: Returns an array of objects containing verse details (key, book, chapter, verse, and content).
-- `"string"`: Returns a string representation of the verse(s) in the format `"Book Chapter:Verse - Content"`.
-
 ### Utility Functions
 
 Best Bible also provides utility functions for querying Bible metadata:
@@ -93,11 +87,16 @@ const bookName = resolveAbbreviation("Gen");
 console.log(bookName);
 ```
 
-### The `outputType` parameter
+<details>
+<summary>
+The `outputType` parameter determines the format of the returned data:
 
-The `outputType` parameter controls what format the Bible data is output as.
+- `"default"`: Returns an array of verse content (default).
+- `"indexed"`: Returns an array of objects containing verse details (key, book, chapter, verse, and content).
+- `"string"`: Returns a string representation of the verse(s) in the format `"Book Chapter:Verse - Content"`.
+</summary>
 
-`"default"` will return each verse as an item in an array, for example:
+`default` will return each verse as an item in an array, for example:
 
 ```json
 ["verse1", "verse2", "verse3"]
@@ -117,11 +116,13 @@ The `outputType` parameter controls what format the Bible data is output as.
 ]
 ```
 
-`"string"` will return each verse as a string, for example:
+`string` will return each verse as a string, for example:
 
 ```yml
 "Book Chapter:Verse - Content"
 ```
+
+</details>
 
 ### Data Input
 
