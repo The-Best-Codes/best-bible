@@ -2,6 +2,15 @@ const bibleData = require(`./data/bible.json`);
 const abbreviations = require(`./utils/abbreviations`);
 const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validation`);
 
+/**
+ * Retrieves a specific verse from the Bible data based on the provided book name, chapter number, and verse number.
+ *
+ * @param {string} bookName - The name of the book containing the verse.
+ * @param {number} chapterNumber - The number of the chapter containing the verse.
+ * @param {number} verseNumber - The number of the verse to retrieve.
+ * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
+ * @return {Array|string} The content of the requested verse based on the output type.
+ */
 function getVerse(bookName, chapterNumber, verseNumber, outputType = "default") {
     if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
         throw new Error('Invalid verse reference');
@@ -22,6 +31,14 @@ function getVerse(bookName, chapterNumber, verseNumber, outputType = "default") 
     }
 }
 
+/**
+ * Retrieves information about a chapter from the Bible data.
+ *
+ * @param {string} bookName - The name of the book containing the chapter.
+ * @param {number} chapterNumber - The number of the chapter to retrieve.
+ * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
+ * @return {Array|String} The information about the chapter based on the output type.
+ */
 function getChapter(bookName, chapterNumber, outputType = "default") {
     if (!isValidChapter(bookName, chapterNumber)) {
         throw new Error('Invalid chapter reference');
@@ -42,6 +59,13 @@ function getChapter(bookName, chapterNumber, outputType = "default") {
     }
 }
 
+/**
+ * Retrieves information about a book from the Bible data.
+ *
+ * @param {string} bookName - The name of the book to retrieve.
+ * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
+ * @return {Array|String|Object} The information about the book based on the output type.
+ */
 function getBook(bookName, outputType = "default") {
     if (!isValidBook(bookName)) {
         throw new Error('Invalid book name');
@@ -66,6 +90,13 @@ function getBook(bookName, outputType = "default") {
     }
 }
 
+/**
+ * Retrieves the number of chapters in a specific book of the Bible.
+ *
+ * @param {string} bookName - The name of the book.
+ * @throws {Error} Throws an error if the book name is invalid.
+ * @return {number} The number of chapters in the specified book.
+ */
 function getChapterCount(bookName) {
     if (!isValidBook(bookName)) {
         throw new Error('Invalid book name');
@@ -73,6 +104,14 @@ function getChapterCount(bookName) {
     return Object.keys(bibleData[bookName]).length;
 }
 
+/**
+ * Retrieves the number of verses in a specific chapter of a book in the Bible.
+ *
+ * @param {string} bookName - The name of the book.
+ * @param {number} chapterNumber - The number of the chapter.
+ * @throws {Error} Throws an error if the chapter reference is invalid.
+ * @return {number} The number of verses in the specified chapter.
+ */
 function getVerseCount(bookName, chapterNumber) {
     if (!isValidChapter(bookName, chapterNumber)) {
         throw new Error('Invalid chapter reference');
@@ -80,10 +119,28 @@ function getVerseCount(bookName, chapterNumber) {
     return bibleData[bookName][chapterNumber].length;
 }
 
+/**
+ * Retrieves the list of Bible books.
+ *
+ * @return {Array} An array containing the names of all the Bible books.
+ */
 function getBibleBooks() {
     return Object.keys(bibleData);
 }
 
+/**
+ * Retrieves a range of verses from the Bible based on the provided start and end references.
+ *
+ * @param {string} startBookName - The name of the starting book.
+ * @param {number} startChapterNumber - The number of the starting chapter.
+ * @param {number} startVerseNumber - The number of the starting verse.
+ * @param {string} endBookName - The name of the ending book.
+ * @param {number} endChapterNumber - The number of the ending chapter.
+ * @param {number} endVerseNumber - The number of the ending verse.
+ * @param {string} [outputType="default"] - The type of output. Can be "indexed", "string", or "default".
+ * @throws {Error} Throws an error if the verse reference is invalid.
+ * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
+ */
 function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default") {
     if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) || !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
         throw new Error('Invalid verse reference');
@@ -133,8 +190,27 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
     }
 }
 
+/**
+ * Resolves an abbreviation to its full name.
+ *
+ * @param {string} abbreviation - The abbreviation to resolve.
+ * @return {string} The full name corresponding to the abbreviation.
+ */
 function resolveAbbreviation(abbreviation) {
     return abbreviations[abbreviation] || abbreviation;
+}
+
+/**
+ * Returns an object containing the three validation functions: `isValidBook`, `isValidChapter`, and `isValidVerse`.
+ *
+ * @return {Object} An object with the validation functions as properties.
+ */
+function validators() {
+    return {
+        isValidBook,
+        isValidChapter,
+        isValidVerse
+    }
 }
 
 module.exports = {
@@ -146,4 +222,7 @@ module.exports = {
     getVerseCount,
     getBibleBooks,
     resolveAbbreviation,
+    validation: {
+        ...validators()
+    }
 };
