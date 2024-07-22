@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const basePath = path.resolve(__dirname, '..');
-const bibleData = require(`${basePath}/data/bible.json`);
-const abbreviations = require(`${basePath}/utils/abbreviations`);
-const { isValidBook, isValidChapter, isValidVerse } = require(`${basePath}/utils/validation`);
+const bibleData = require(`./data/bible.json`);
+const abbreviations = require(`./utils/abbreviations`);
+const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validation`);
 
 function getVerse(bookName, chapterNumber, verseNumber) {
     if (!isValidVerse(bookName, chapterNumber, verseNumber)) {

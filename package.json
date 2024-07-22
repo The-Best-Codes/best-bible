@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "test": "node -r esm test/index.js",
@@ -34,6 +34,7 @@
     "@babel/cli": "^7.24.8",
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
+    "babel-plugin-module-resolver": "^5.0.2",
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"

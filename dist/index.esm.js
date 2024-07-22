@@ -1,9 +1,8 @@
 "use strict";
 
-var basePath = process.env.NODE_ENV === 'production' ? '../src' : '.';
-var bibleData = require("".concat(basePath, "/data/bible.json"));
-var abbreviations = require("".concat(basePath, "/utils/abbreviations"));
-var _require = require("".concat(basePath, "/utils/validation")),
+var bibleData = require("./data/bible.json");
+var abbreviations = require("./utils/abbreviations");
+var _require = require("./utils/validation"),
   isValidBook = _require.isValidBook,
   isValidChapter = _require.isValidChapter,
   isValidVerse = _require.isValidVerse;
