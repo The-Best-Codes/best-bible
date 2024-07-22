@@ -176,6 +176,7 @@ When calling any function which requires a book name, use a book name from the f
   "Psalms",
   "Proverbs",
   "Ecclesiastes",
+  "SongOfSolomon",
   "Isaiah",
   "Jeremiah",
   "Lamentations",

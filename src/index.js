@@ -200,6 +200,14 @@ function resolveAbbreviation(abbreviation) {
     return abbreviations[abbreviation] || abbreviation;
 }
 
+function bibleStats() {
+    return {
+        books: Object.keys(bibleData).length,
+        chapters: Object.values(bibleData).reduce((sum, book) => sum + Object.keys(book).length, 0),
+        verses: Object.values(bibleData).reduce((sum, book) => sum + Object.values(book).reduce((sum, chapter) => sum + chapter.length, 0), 0),
+    };
+}
+
 /**
  * Returns an object containing the three validation functions: `isValidBook`, `isValidChapter`, and `isValidVerse`.
  *
@@ -222,6 +230,7 @@ module.exports = {
     getVerseCount,
     getBibleBooks,
     resolveAbbreviation,
+    bibleStats,
     bibleValidation: {
         ...validators()
     }
