@@ -2,25 +2,68 @@ const bibleData = require(`./data/bible.json`);
 const abbreviations = require(`./utils/abbreviations`);
 const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validation`);
 
-function getVerse(bookName, chapterNumber, verseNumber) {
+function getVerse(bookName, chapterNumber, verseNumber, outputType = "default") {
     if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
         throw new Error('Invalid verse reference');
     }
-    return bibleData[bookName][chapterNumber][verseNumber - 1];
+    const content = bibleData[bookName][chapterNumber][verseNumber - 1];
+    if (outputType === "indexed") {
+        return [{
+            key: `${bookName} ${chapterNumber}:${verseNumber}`,
+            book: bookName,
+            chapter: chapterNumber.toString(),
+            verse: verseNumber.toString(),
+            content: content
+        }];
+    } else if (outputType === "string") {
+        return `${bookName} ${chapterNumber}:${verseNumber} - ${content}`;
+    } else {
+        return [content];
+    }
 }
 
-function getChapter(bookName, chapterNumber) {
+function getChapter(bookName, chapterNumber, outputType = "default") {
     if (!isValidChapter(bookName, chapterNumber)) {
         throw new Error('Invalid chapter reference');
     }
-    return bibleData[bookName][chapterNumber];
+    const verses = bibleData[bookName][chapterNumber];
+    if (outputType === "indexed") {
+        return verses.map((content, index) => ({
+            key: `${bookName} ${chapterNumber}:${index + 1}`,
+            book: bookName,
+            chapter: chapterNumber.toString(),
+            verse: (index + 1).toString(),
+            content: content
+        }));
+    } else if (outputType === "string") {
+        return verses.map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${content}`).join("\n");
+    } else {
+        return verses;
+    }
 }
 
-function getBook(bookName) {
+function getBook(bookName, outputType = "default") {
     if (!isValidBook(bookName)) {
         throw new Error('Invalid book name');
     }
-    return bibleData[bookName];
+    const chapters = bibleData[bookName];
+    if (outputType === "indexed") {
+        return Object.entries(chapters).flatMap(([chapterNumber, verses]) =>
+            verses.map((content, index) => ({
+                key: `${bookName} ${chapterNumber}:${index + 1}`,
+                book: bookName,
+                chapter: chapterNumber,
+                verse: (index + 1).toString(),
+                content: content
+            }))
+        );
+    } else if (outputType === "string") {
+        return Object.entries(chapters).map(([chapterNumber, verses]) =>
+            verses.map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${content}`).join("\n")
+        ).join("\n\n");
+    } else {
+        return chapters;
+    }
 }
 
 function getChapterCount(bookName) {
@@ -41,7 +84,7 @@ function getBibleBooks() {
     return Object.keys(bibleData);
 }
 
-function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber) {
+function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default") {
     if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) || !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
         throw new Error('Invalid verse reference');
     }
@@ -65,12 +108,29 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
 
             // Iterate through the verses
             for (var verseNumber = startVerse; verseNumber <= endVerse; verseNumber++) {
-                verses.push(getVerse(bookName, chapterNumber, verseNumber));
+                const content = getVerse(bookName, chapterNumber, verseNumber)[0];
+                if (outputType === "indexed") {
+                    verses.push({
+                        key: `${bookName} ${chapterNumber}:${verseNumber}`,
+                        book: bookName,
+                        chapter: chapterNumber.toString(),
+                        verse: verseNumber.toString(),
+                        content: content
+                    });
+                } else if (outputType === "string") {
+                    verses.push(`${bookName} ${chapterNumber}:${verseNumber} - ${content}`);
+                } else {
+                    verses.push(content);
+                }
             }
         }
     }
 
-    return verses;
+    if (outputType === "string") {
+        return verses.join("\n");
+    } else {
+        return verses;
+    }
 }
 
 function resolveAbbreviation(abbreviation) {
