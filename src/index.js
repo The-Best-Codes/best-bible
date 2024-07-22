@@ -1,4 +1,6 @@
-const basePath = process.env.NODE_ENV === 'production' ? '../src' : '.';
+const fs = require('fs');
+const path = require('path');
+const basePath = path.resolve(__dirname, '..');
 const bibleData = require(`${basePath}/data/bible.json`);
 const abbreviations = require(`${basePath}/utils/abbreviations`);
 const { isValidBook, isValidChapter, isValidVerse } = require(`${basePath}/utils/validation`);
