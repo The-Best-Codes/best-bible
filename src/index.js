@@ -222,7 +222,7 @@ module.exports = {
     getVerseCount,
     getBibleBooks,
     resolveAbbreviation,
-    validation: {
+    bibleValidation: {
         ...validators()
     }
 };

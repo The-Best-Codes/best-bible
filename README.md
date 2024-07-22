@@ -40,6 +40,22 @@ Best Bible also provides utility functions for querying Bible metadata:
 - `getBibleBooks()`: Retrieves an array of all the books in the Bible.
 - `resolveAbbreviation(abbreviation)`: Resolves a book abbreviation to its full name.
 
+### Validation Utility Functions
+
+Best Bible also provides utility functions for validating Bible data such as verse, chapter, and book names or indices.
+
+To use these functions, you need to import the `bibleValidation` function group:
+
+```javascript
+const { bibleValidation } = require("best-bible");
+```
+
+The `bibleValidation` function group provides these functions:
+
+- `isValidVerse(bookName, chapterNumber, verseNumber)`: returns true if the verse exists in the Bible.
+- `isValidChapter(bookName, chapterNumber)`: returns true if the chapter exists in the Bible.
+- `isValidBook(bookName)`: returns true if the book exists in the Bible.
+
 ### Example Usage
 
 ```javascript
