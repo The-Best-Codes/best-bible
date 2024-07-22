@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/best-bible.svg)](https://www.npmjs.com/package/best-bible)
 [![npm license](https://img.shields.io/npm/l/best-bible.svg)](https://www.npmjs.com/package/best-bible)
 
-<img src="https://github.com/The-Best-Codes/best-bible/blob/main/.image/best-bible-js-logo.png?raw=true" alt="Best Bible Logo" for="cover">
+<img src="https://github.com/The-Best-Codes/best-bible/blob/main/.image/best-bible-js-logo.png?raw=true" alt="Best Bible Logo" for="cover" style="border-radius: 20px">
 
 _Fetch, parse, and analyze the Bible easily with JavaScript_
 
