@@ -1,0 +1,40 @@
+{
+  "name": "best-bible",
+  "version": "1.0.0",
+  "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
+  "scripts": {
+    "test": "node -r esm test/index.js",
+    "build:cjs": "cp src/index.js dist/index.cjs.js",
+    "build:esm": "npx babel src/index.js --out-file dist/index.esm.js --presets @babel/preset-env",
+    "build": "npm run build:cjs && npm run build:esm",
+    "prepublishOnly": "npm run build"
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Best-Codes/best-bible.git"
+  },
+  "keywords": [
+    "bible",
+    "jesus",
+    "christ",
+    "christian",
+    "christianity",
+    "verse",
+    "kjv"
+  ],
+  "author": "The-Best-Codes",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/The-Best-Codes/best-bible/issues"
+  },
+  "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.24.8",
+    "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
+    "esm": "^3.2.25",
+    "fs": "^0.0.1-security"
+  }
+}
