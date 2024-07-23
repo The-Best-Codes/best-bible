@@ -11,5 +11,5 @@
     "baseUrl": "."
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "src/data/bible.json"]
+  "exclude": ["src/data/bible.json"]
 }
