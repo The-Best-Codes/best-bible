@@ -1,11 +1,10 @@
-const bibleData = require("./data/bible.json");
-
 let abbreviations, isValidBook, isValidChapter, isValidVerse;
 let initializationPromise = null;
 
 function initialize() {
     if (!initializationPromise) {
         initializationPromise = Promise.all([
+            import("./data/bible.json", { assert: { type: "json" } }),
             import("./utils/abbreviations.js"),
             import("./utils/validation.js")
         ]).then(([abbrModule, validationModule]) => {

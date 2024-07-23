@@ -1,5 +1,3 @@
-const bibleData = require("./data/bible.json");
-
 let abbreviations, isValidBook, isValidChapter, isValidVerse;
 let initializationPromise = null;
 
