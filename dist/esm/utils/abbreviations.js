@@ -1,9 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
 var abbreviations = {
   'Gen': 'Genesis',
   'Ex': 'Exodus',
@@ -72,4 +66,4 @@ var abbreviations = {
   'Jude': 'Jude',
   'Rev': 'Revelation'
 };
-var _default = exports["default"] = abbreviations;
+export default abbreviations;

@@ -2,24 +2,34 @@ const buildTarget = process.env.BUILD_TARGET;
 
 module.exports = {
     presets: [
-        "@babel/preset-env",
-        "@babel/preset-typescript"
-    ],
-    plugins: [
+        "@babel/preset-typescript",
         [
-            "module-resolver",
+            "@babel/preset-env",
             {
-                root: ["./dist"],
-                alias: buildTarget === 'esm' ? {
-                    "./data/bible.json": "../data/bible.json",
-                    "./utils/abbreviations": "../utils/abbreviations",
-                    "./utils/validation": "../utils/validation"
-                } : {
-                    "./data/bible.json": "./data/bible.json",
-                    "./utils/abbreviations": "./utils/abbreviations",
-                    "./utils/validation": "./utils/validation"
-                }
+                modules: buildTarget === 'esm' ? false : 'commonjs'
             }
         ]
-    ]
+    ],
+    env: {
+        cjs: {
+            presets: [
+                [
+                    "@babel/preset-env",
+                    {
+                        modules: "commonjs"
+                    }
+                ]
+            ]
+        },
+        esm: {
+            presets: [
+                [
+                    "@babel/preset-env",
+                    {
+                        modules: false
+                    }
+                ]
+            ]
+        }
+    }
 };

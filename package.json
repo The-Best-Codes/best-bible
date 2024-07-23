@@ -1,18 +1,27 @@
 {
   "name": "best-bible",
-  "type": "module",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "build:types": "tsc --emitDeclarationOnly",
-    "build:cjs": "BUILD_TARGET=cjs babel src --out-dir dist --extensions \".ts,.js\"",
-    "build:esm": "BUILD_TARGET=esm babel src --out-dir dist/esm --extensions \".ts,.js\"",
+    "build:cjs": "BUILD_TARGET=cjs babel src --out-dir dist/cjs --extensions \".ts,.js\" && mkdir -p dist/cjs/data && cp src/data/bible.json dist/cjs/data/bible.json",
+    "build:esm": "BUILD_TARGET=esm babel src --out-dir dist/esm --extensions \".ts,.js\" && mkdir -p dist/esm/data && cp src/data/bible.json dist/esm/data/bible.json",
     "build": "npm run build:types && npm run build:cjs && npm run build:esm",
     "prepublishOnly": "npm run build"
   },
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/The-Best-Codes/best-bible.git"
