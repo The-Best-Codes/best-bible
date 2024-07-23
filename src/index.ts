@@ -1,4 +1,8 @@
-import bibleData from "./data/bible.json";
+import fs from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
+const _dirname = path.dirname(fileURLToPath(import.meta.url));
+var bibleData = fs.readFile(path.join(_dirname, "data", "bible.json"), "utf8");
 import abbreviations from "./utils/abbreviations";
 import { isValidBook, isValidChapter, isValidVerse } from "./utils/validation";
 

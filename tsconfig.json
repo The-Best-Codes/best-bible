@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "ESNext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "declaration": true,
-    "baseUrl": ".",
-    "moduleResolution": "node",
-    "resolveJsonModule": true
+    "baseUrl": "."
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "src/data/bible.json"]
 }

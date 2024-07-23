@@ -1,13 +1,17 @@
-let abbreviations, isValidBook, isValidChapter, isValidVerse;
+const fs = require('fs').promises;
+const path = require('path');
+
+let bibleData, abbreviations, isValidBook, isValidChapter, isValidVerse;
 let initializationPromise = null;
 
-function initialize() {
+async function initialize() {
     if (!initializationPromise) {
         initializationPromise = Promise.all([
-            import("./data/bible.json", { assert: { type: "json" } }),
+            fs.readFile(path.join(__dirname, 'data', 'bible.json'), 'utf8'),
             import("./utils/abbreviations.js"),
             import("./utils/validation.js")
-        ]).then(([abbrModule, validationModule]) => {
+        ]).then(([bibleDataRaw, abbrModule, validationModule]) => {
+            bibleData = JSON.parse(bibleDataRaw);
             abbreviations = abbrModule.abbreviations;
             isValidBook = validationModule.isValidBook;
             isValidChapter = validationModule.isValidChapter;

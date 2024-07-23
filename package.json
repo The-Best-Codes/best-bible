@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.2.5",
+  "version": "1.2.8",
   "type": "module",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
@@ -45,7 +45,8 @@
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "url": "^0.11.3"
   },
   "babel": {
     "presets": [
