@@ -1,3 +1,7 @@
-import { getVerse } from "../dist/index.cjs";
+const { getVerse, bibleStats } = require('../src/index');
 
-console.log(getVerse("Genesis", 1, 1, "indexed"))
+const verse = getVerse('Genesis', 1, 1);
+
+console.log(verse);
+
+console.log(bibleStats())
