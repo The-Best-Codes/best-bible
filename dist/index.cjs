@@ -38,7 +38,7 @@ async function getVerse(
     outputType = "default"
 ) {
     await initialize();
-    if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
+    if (!await isValidVerse(bookName, chapterNumber, verseNumber)) {
         throw new Error("Invalid verse reference");
     }
     const content = bibleData[bookName][chapterNumber][verseNumber - 1];
@@ -69,7 +69,7 @@ async function getVerse(
  */
 async function getChapter(bookName, chapterNumber, outputType = "default") {
     await initialize();
-    if (!isValidChapter(bookName, chapterNumber)) {
+    if (!await isValidChapter(bookName, chapterNumber)) {
         throw new Error("Invalid chapter reference");
     }
     const verses = bibleData[bookName][chapterNumber];
@@ -102,7 +102,7 @@ async function getChapter(bookName, chapterNumber, outputType = "default") {
  */
 async function getBook(bookName, outputType = "default") {
     await initialize();
-    if (!isValidBook(bookName)) {
+    if (!await isValidBook(bookName)) {
         throw new Error("Invalid book name");
     }
     const chapters = bibleData[bookName];
@@ -141,7 +141,7 @@ async function getBook(bookName, outputType = "default") {
  */
 async function getChapterCount(bookName) {
     await initialize();
-    if (!isValidBook(bookName)) {
+    if (!await isValidBook(bookName)) {
         throw new Error("Invalid book name");
     }
     return Object.keys(bibleData[bookName]).length;
@@ -157,7 +157,7 @@ async function getChapterCount(bookName) {
  */
 async function getVerseCount(bookName, chapterNumber) {
     await initialize();
-    if (!isValidChapter(bookName, chapterNumber)) {
+    if (!await isValidChapter(bookName, chapterNumber)) {
         throw new Error("Invalid chapter reference");
     }
     return bibleData[bookName][chapterNumber].length;
@@ -197,8 +197,8 @@ async function getRange(
 ) {
     await initialize();
     if (
-        !isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
-        !isValidVerse(endBookName, endChapterNumber, endVerseNumber)
+        !await isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
+        !await isValidVerse(endBookName, endChapterNumber, endVerseNumber)
     ) {
         throw new Error("Invalid verse reference");
     }

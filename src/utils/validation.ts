@@ -3,53 +3,42 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-var bibleData = fs.readFile(
-  path.join(__dirname, "..", "data", "bible.json"),
-  "utf8"
-);
 
-/**
- * Checks if the provided book name is a valid entry in the bibleData.
- *
- * @param {string} bookName - The name of the book to check.
- * @return {boolean} Indicates whether the book name is valid.
- */
-function isValidBook(bookName: string) {
+async function loadBibleData() {
+  const filePath = path.join(__dirname, "..", "data", "bible.json");
+  const rawData = await fs.readFile(filePath, "utf8");
+  return JSON.parse(rawData);
+}
+
+const bibleDataPromise = loadBibleData();
+
+async function isValidBook(bookName: string): Promise<boolean> {
+  const bibleData = await bibleDataPromise;
   return bibleData.hasOwnProperty(bookName);
 }
 
-/**
- * Checks if the given chapter number is valid for the specified book.
- *
- * @param {string} bookName - The name of the book.
- * @param {number} chapterNumber - The number of the chapter.
- * @return {boolean} Returns true if the chapter number is valid, false otherwise.
- */
-function isValidChapter(bookName: string, chapterNumber: number) {
-  if (!isValidBook(bookName)) {
+async function isValidChapter(
+  bookName: string,
+  chapterNumber: number
+): Promise<boolean> {
+  const bibleData = await bibleDataPromise;
+  if (!(await isValidBook(bookName))) {
     return false;
   }
-  const book = (bibleData as any)[bookName];
+  const book = bibleData[bookName];
   return book.hasOwnProperty(chapterNumber);
 }
 
-/**
- * Checks if the given verse number is valid for the specified book and chapter.
- *
- * @param {string} bookName - The name of the book.
- * @param {number} chapterNumber - The number of the chapter.
- * @param {number} verseNumber - The number of the verse.
- * @return {boolean} Returns true if the verse number is valid, false otherwise.
- */
-function isValidVerse(
+async function isValidVerse(
   bookName: string,
   chapterNumber: number,
   verseNumber: number
-) {
-  if (!isValidChapter(bookName, chapterNumber)) {
+): Promise<boolean> {
+  if (!(await isValidChapter(bookName, chapterNumber))) {
     return false;
   }
-  const chapter = (bibleData as any)[bookName][chapterNumber];
+  const bibleData = await bibleDataPromise;
+  const chapter = bibleData[bookName][chapterNumber];
   return verseNumber >= 1 && verseNumber <= chapter.length;
 }
 

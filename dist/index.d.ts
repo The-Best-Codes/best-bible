@@ -7,7 +7,7 @@
  * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
  * @return {Array|string} The content of the requested verse based on the output type.
  */
-declare function getVerse(bookName: string, chapterNumber: number, verseNumber: number, outputType?: string): string | any[];
+declare function getVerse(bookName: string, chapterNumber: number, verseNumber: number, outputType?: string): Promise<string | any[]>;
 /**
  * Retrieves information about a chapter from the Bible data.
  *
@@ -16,7 +16,7 @@ declare function getVerse(bookName: string, chapterNumber: number, verseNumber: 
  * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
  * @return {Array|String} The information about the chapter based on the output type.
  */
-declare function getChapter(bookName: string, chapterNumber: number, outputType?: string): any;
+declare function getChapter(bookName: string, chapterNumber: number, outputType?: string): Promise<any>;
 /**
  * Retrieves information about a book from the Bible data.
  *
@@ -24,7 +24,7 @@ declare function getChapter(bookName: string, chapterNumber: number, outputType?
  * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
  * @return {Array|String|Object} The information about the book based on the output type.
  */
-declare function getBook(bookName: string, outputType?: string): any;
+declare function getBook(bookName: string, outputType?: string): Promise<any>;
 /**
  * Retrieves the number of chapters in a specific book of the Bible.
  *
@@ -32,7 +32,7 @@ declare function getBook(bookName: string, outputType?: string): any;
  * @throws {Error} Throws an error if the book name is invalid.
  * @return {number} The number of chapters in the specified book.
  */
-declare function getChapterCount(bookName: string): number;
+declare function getChapterCount(bookName: string): Promise<number>;
 /**
  * Retrieves the number of verses in a specific chapter of a book in the Bible.
  *
@@ -41,13 +41,13 @@ declare function getChapterCount(bookName: string): number;
  * @throws {Error} Throws an error if the chapter reference is invalid.
  * @return {number} The number of verses in the specified chapter.
  */
-declare function getVerseCount(bookName: string, chapterNumber: any): any;
+declare function getVerseCount(bookName: string, chapterNumber: any): Promise<any>;
 /**
  * Retrieves the list of Bible books.
  *
  * @return {Array} An array containing the names of all the Bible books.
  */
-declare function getBibleBooks(): string[];
+declare function getBibleBooks(): Promise<string[]>;
 /**
  * Retrieves a range of verses from the Bible based on the provided start and end references.
  *
@@ -61,7 +61,7 @@ declare function getBibleBooks(): string[];
  * @throws {Error} Throws an error if the verse reference is invalid.
  * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
  */
-declare function getRange(startBookName: string, startChapterNumber: number, startVerseNumber: number, endBookName: string, endChapterNumber: number, endVerseNumber: number, outputType?: string): string | any[];
+declare function getRange(startBookName: string, startChapterNumber: number, startVerseNumber: number, endBookName: string, endChapterNumber: number, endVerseNumber: number, outputType?: string): Promise<string | any[]>;
 /**
  * Resolves an abbreviation to its full name.
  *
@@ -69,9 +69,9 @@ declare function getRange(startBookName: string, startChapterNumber: number, sta
  * @return {string} The full name corresponding to the abbreviation.
  */
 declare function resolveAbbreviation(abbreviation: string): any;
-declare function bibleStats(): {
+declare function bibleStats(): Promise<{
     books: number;
     chapters: number;
     verses: number;
-};
+}>;
 export { getVerse, getChapter, getBook, getRange, getChapterCount, getVerseCount, getBibleBooks, resolveAbbreviation, bibleStats, };
