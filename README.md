@@ -26,7 +26,7 @@ First, require the `best-bible` package in your Node.js application:
 const { (functions) } = require('best-bible');
 ```
 
-Simple import each function you need to use in the curly braces `{}`, seperated by commas (`,`).
+Simply import each function you need to use in the curly braces `{}`, seperated by commas (`,`).
 
 ### Getting Bible Data
 
