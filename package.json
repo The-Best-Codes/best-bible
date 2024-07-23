@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "build:types": "tsc --emitDeclarationOnly",
