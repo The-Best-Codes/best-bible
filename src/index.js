@@ -1,6 +1,6 @@
-const bibleData = require(`./data/bible.json`);
-const abbreviations = require(`./utils/abbreviations`);
-const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validation`);
+import bibleData from "./data/bible.json"
+import abbreviations from "./utils/abbreviations"
+import { isValidBook, isValidChapter, isValidVerse } from "./utils/validation"
 
 /**
  * Retrieves a specific verse from the Bible data based on the provided book name, chapter number, and verse number.
@@ -11,23 +11,30 @@ const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validatio
  * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
  * @return {Array|string} The content of the requested verse based on the output type.
  */
-function getVerse(bookName, chapterNumber, verseNumber, outputType = "default") {
+function getVerse(
+    bookName,
+    chapterNumber,
+    verseNumber,
+    outputType = "default"
+) {
     if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
-        throw new Error('Invalid verse reference');
+        throw new Error("Invalid verse reference")
     }
-    const content = bibleData[bookName][chapterNumber][verseNumber - 1];
+    const content = bibleData[bookName][chapterNumber][verseNumber - 1]
     if (outputType === "indexed") {
-        return [{
-            key: `${bookName} ${chapterNumber}:${verseNumber}`,
-            book: bookName,
-            chapter: chapterNumber.toString(),
-            verse: verseNumber.toString(),
-            content: content
-        }];
+        return [
+            {
+                key: `${bookName} ${chapterNumber}:${verseNumber}`,
+                book: bookName,
+                chapter: chapterNumber.toString(),
+                verse: verseNumber.toString(),
+                content: content
+            }
+        ]
     } else if (outputType === "string") {
-        return `${bookName} ${chapterNumber}:${verseNumber} - ${content}`;
+        return `${bookName} ${chapterNumber}:${verseNumber} - ${content}`
     } else {
-        return [content];
+        return [content]
     }
 }
 
@@ -41,9 +48,9 @@ function getVerse(bookName, chapterNumber, verseNumber, outputType = "default") 
  */
 function getChapter(bookName, chapterNumber, outputType = "default") {
     if (!isValidChapter(bookName, chapterNumber)) {
-        throw new Error('Invalid chapter reference');
+        throw new Error("Invalid chapter reference")
     }
-    const verses = bibleData[bookName][chapterNumber];
+    const verses = bibleData[bookName][chapterNumber]
     if (outputType === "indexed") {
         return verses.map((content, index) => ({
             key: `${bookName} ${chapterNumber}:${index + 1}`,
@@ -51,11 +58,16 @@ function getChapter(bookName, chapterNumber, outputType = "default") {
             chapter: chapterNumber.toString(),
             verse: (index + 1).toString(),
             content: content
-        }));
+        }))
     } else if (outputType === "string") {
-        return verses.map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${content}`).join("\n");
+        return verses
+            .map(
+                (content, index) =>
+                    `${bookName} ${chapterNumber}:${index + 1} - ${content}`
+            )
+            .join("\n")
     } else {
-        return verses;
+        return verses
     }
 }
 
@@ -68,9 +80,9 @@ function getChapter(bookName, chapterNumber, outputType = "default") {
  */
 function getBook(bookName, outputType = "default") {
     if (!isValidBook(bookName)) {
-        throw new Error('Invalid book name');
+        throw new Error("Invalid book name")
     }
-    const chapters = bibleData[bookName];
+    const chapters = bibleData[bookName]
     if (outputType === "indexed") {
         return Object.entries(chapters).flatMap(([chapterNumber, verses]) =>
             verses.map((content, index) => ({
@@ -80,13 +92,20 @@ function getBook(bookName, outputType = "default") {
                 verse: (index + 1).toString(),
                 content: content
             }))
-        );
+        )
     } else if (outputType === "string") {
-        return Object.entries(chapters).map(([chapterNumber, verses]) =>
-            verses.map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${content}`).join("\n")
-        ).join("\n\n");
+        return Object.entries(chapters)
+            .map(([chapterNumber, verses]) =>
+                verses
+                    .map(
+                        (content, index) =>
+                            `${bookName} ${chapterNumber}:${index + 1} - ${content}`
+                    )
+                    .join("\n")
+            )
+            .join("\n\n")
     } else {
-        return chapters;
+        return chapters
     }
 }
 
@@ -99,9 +118,9 @@ function getBook(bookName, outputType = "default") {
  */
 function getChapterCount(bookName) {
     if (!isValidBook(bookName)) {
-        throw new Error('Invalid book name');
+        throw new Error("Invalid book name")
     }
-    return Object.keys(bibleData[bookName]).length;
+    return Object.keys(bibleData[bookName]).length
 }
 
 /**
@@ -114,9 +133,9 @@ function getChapterCount(bookName) {
  */
 function getVerseCount(bookName, chapterNumber) {
     if (!isValidChapter(bookName, chapterNumber)) {
-        throw new Error('Invalid chapter reference');
+        throw new Error("Invalid chapter reference")
     }
-    return bibleData[bookName][chapterNumber].length;
+    return bibleData[bookName][chapterNumber].length
 }
 
 /**
@@ -125,7 +144,7 @@ function getVerseCount(bookName, chapterNumber) {
  * @return {Array} An array containing the names of all the Bible books.
  */
 function getBibleBooks() {
-    return Object.keys(bibleData);
+    return Object.keys(bibleData)
 }
 
 /**
@@ -141,31 +160,57 @@ function getBibleBooks() {
  * @throws {Error} Throws an error if the verse reference is invalid.
  * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
  */
-function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default") {
-    if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) || !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
-        throw new Error('Invalid verse reference');
+function getRange(
+    startBookName,
+    startChapterNumber,
+    startVerseNumber,
+    endBookName,
+    endChapterNumber,
+    endVerseNumber,
+    outputType = "default"
+) {
+    if (
+        !isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
+        !isValidVerse(endBookName, endChapterNumber, endVerseNumber)
+    ) {
+        throw new Error("Invalid verse reference")
     }
 
-    var verses = [];
+    var verses = []
 
     // Get the index of the start and end books
-    var startBookIndex = getBibleBooks().indexOf(startBookName);
-    var endBookIndex = getBibleBooks().indexOf(endBookName);
+    var startBookIndex = getBibleBooks().indexOf(startBookName)
+    var endBookIndex = getBibleBooks().indexOf(endBookName)
 
     // Iterate through the books
     for (var bookIndex = startBookIndex; bookIndex <= endBookIndex; bookIndex++) {
-        var bookName = getBibleBooks()[bookIndex];
-        var startChapter = (bookIndex === startBookIndex) ? startChapterNumber : 1;
-        var endChapter = (bookIndex === endBookIndex) ? endChapterNumber : getChapterCount(bookName);
+        var bookName = getBibleBooks()[bookIndex]
+        var startChapter = bookIndex === startBookIndex ? startChapterNumber : 1
+        var endChapter =
+            bookIndex === endBookIndex ? endChapterNumber : getChapterCount(bookName)
 
         // Iterate through the chapters
-        for (var chapterNumber = startChapter; chapterNumber <= endChapter; chapterNumber++) {
-            var startVerse = (bookIndex === startBookIndex && chapterNumber === startChapterNumber) ? startVerseNumber : 1;
-            var endVerse = (bookIndex === endBookIndex && chapterNumber === endChapterNumber) ? endVerseNumber : getVerseCount(bookName, chapterNumber);
+        for (
+            var chapterNumber = startChapter;
+            chapterNumber <= endChapter;
+            chapterNumber++
+        ) {
+            var startVerse =
+                bookIndex === startBookIndex && chapterNumber === startChapterNumber
+                    ? startVerseNumber
+                    : 1
+            var endVerse =
+                bookIndex === endBookIndex && chapterNumber === endChapterNumber
+                    ? endVerseNumber
+                    : getVerseCount(bookName, chapterNumber)
 
             // Iterate through the verses
-            for (var verseNumber = startVerse; verseNumber <= endVerse; verseNumber++) {
-                const content = getVerse(bookName, chapterNumber, verseNumber)[0];
+            for (
+                var verseNumber = startVerse;
+                verseNumber <= endVerse;
+                verseNumber++
+            ) {
+                const content = getVerse(bookName, chapterNumber, verseNumber)[0]
                 if (outputType === "indexed") {
                     verses.push({
                         key: `${bookName} ${chapterNumber}:${verseNumber}`,
@@ -173,20 +218,22 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
                         chapter: chapterNumber.toString(),
                         verse: verseNumber.toString(),
                         content: content
-                    });
+                    })
                 } else if (outputType === "string") {
-                    verses.push(`${bookName} ${chapterNumber}:${verseNumber} - ${content}`);
+                    verses.push(
+                        `${bookName} ${chapterNumber}:${verseNumber} - ${content}`
+                    )
                 } else {
-                    verses.push(content);
+                    verses.push(content)
                 }
             }
         }
     }
 
     if (outputType === "string") {
-        return verses.join("\n");
+        return verses.join("\n")
     } else {
-        return verses;
+        return verses
     }
 }
 
@@ -197,31 +244,26 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
  * @return {string} The full name corresponding to the abbreviation.
  */
 function resolveAbbreviation(abbreviation) {
-    return abbreviations[abbreviation] || abbreviation;
+    return abbreviations[abbreviation] || abbreviation
 }
 
 function bibleStats() {
     return {
         books: Object.keys(bibleData).length,
-        chapters: Object.values(bibleData).reduce((sum, book) => sum + Object.keys(book).length, 0),
-        verses: Object.values(bibleData).reduce((sum, book) => sum + Object.values(book).reduce((sum, chapter) => sum + chapter.length, 0), 0),
-    };
-}
-
-/**
- * Returns an object containing the three validation functions: `isValidBook`, `isValidChapter`, and `isValidVerse`.
- *
- * @return {Object} An object with the validation functions as properties.
- */
-function validators() {
-    return {
-        isValidBook,
-        isValidChapter,
-        isValidVerse
+        chapters: Object.values(bibleData).reduce(
+            (sum, book) => sum + Object.keys(book).length,
+            0
+        ),
+        verses: Object.values(bibleData).reduce(
+            (sum, book) =>
+                sum +
+                Object.values(book).reduce((sum, chapter) => sum + chapter.length, 0),
+            0
+        )
     }
 }
 
-module.exports = {
+export {
     getVerse,
     getChapter,
     getBook,
@@ -230,8 +272,5 @@ module.exports = {
     getVerseCount,
     getBibleBooks,
     resolveAbbreviation,
-    bibleStats,
-    bibleValidation: {
-        ...validators()
-    }
-};
+    bibleStats
+}

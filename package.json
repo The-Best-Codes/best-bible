@@ -1,12 +1,14 @@
 {
   "name": "best-bible",
-  "version": "1.1.5",
+  "version": "1.1.6",
+  "type": "module",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "test": "node -r esm test/index.js",
+    "build:ts": "tsc --project tsconfig.json",
     "build:cjs": "cp src/index.js dist/index.cjs.js",
-    "build:esm": "npx babel src --out-dir dist --presets @babel/preset-env --copy-files",
-    "build": "npm run build:cjs && npm run build:esm",
+    "build:esm": "npx babel src --extensions '.js,.ts' --out-dir dist --presets @babel/preset-env --copy-files",
+    "build": "npm run build:ts && npm run build:cjs && npm run build:esm",
     "prepublishOnly": "npm run build"
   },
   "main": "dist/index.cjs.js",
@@ -34,14 +36,17 @@
     "@babel/cli": "^7.24.8",
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
+    "@babel/preset-typescript": "^7.24.7",
     "babel-plugin-module-resolver": "^5.0.2",
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "typescript": "^5.5.4"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      "@babel/preset-env",
+      "@babel/preset-typescript"
     ],
     "plugins": [
       [
