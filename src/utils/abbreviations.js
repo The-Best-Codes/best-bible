@@ -67,4 +67,4 @@ const abbreviations = {
     'Rev': 'Revelation'
 };
 
-module.exports = abbreviations;
+export default abbreviations

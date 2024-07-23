@@ -1,4 +1,4 @@
-const bibleData = require('../data/bible.json');
+import bibleData from '../data/bible.json';
 
 /**
  * Checks if the provided book name is a valid entry in the bibleData.
@@ -41,7 +41,7 @@ function isValidVerse(bookName, chapterNumber, verseNumber) {
     return verseNumber >= 1 && verseNumber <= chapter.length;
 }
 
-module.exports = {
+export {
     isValidBook,
     isValidChapter,
     isValidVerse,

@@ -1,7 +1,13 @@
 "use strict";
 
-var bibleData = require("../data/bible.json");
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isValidBook = isValidBook;
+exports.isValidChapter = isValidChapter;
+exports.isValidVerse = isValidVerse;
+var _bible = _interopRequireDefault(require("../data/bible.json"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 /**
  * Checks if the provided book name is a valid entry in the bibleData.
  *
@@ -9,7 +15,7 @@ var bibleData = require("../data/bible.json");
  * @return {boolean} Indicates whether the book name is valid.
  */
 function isValidBook(bookName) {
-  return bibleData.hasOwnProperty(bookName);
+  return _bible["default"].hasOwnProperty(bookName);
 }
 
 /**
@@ -23,7 +29,7 @@ function isValidChapter(bookName, chapterNumber) {
   if (!isValidBook(bookName)) {
     return false;
   }
-  var book = bibleData[bookName];
+  var book = _bible["default"][bookName];
   return book.hasOwnProperty(chapterNumber);
 }
 
@@ -39,11 +45,6 @@ function isValidVerse(bookName, chapterNumber, verseNumber) {
   if (!isValidChapter(bookName, chapterNumber)) {
     return false;
   }
-  var chapter = bibleData[bookName][chapterNumber];
+  var chapter = _bible["default"][bookName][chapterNumber];
   return verseNumber >= 1 && verseNumber <= chapter.length;
 }
-module.exports = {
-  isValidBook: isValidBook,
-  isValidChapter: isValidChapter,
-  isValidVerse: isValidVerse
-};

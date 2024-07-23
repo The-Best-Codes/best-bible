@@ -1,6 +1,6 @@
-const bibleData = require(`./data/bible.json`);
-const abbreviations = require(`./utils/abbreviations`);
-const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validation`);
+import bibleData from './data/bible.json';
+import abbreviations from './utils/abbreviations';
+import { isValidBook, isValidChapter, isValidVerse } from './utils/validation';
 
 /**
  * Retrieves a specific verse from the Bible data based on the provided book name, chapter number, and verse number.
@@ -221,7 +221,7 @@ function validators() {
     }
 }
 
-module.exports = {
+export {
     getVerse,
     getChapter,
     getBook,
@@ -231,7 +231,4 @@ module.exports = {
     getBibleBooks,
     resolveAbbreviation,
     bibleStats,
-    bibleValidation: {
-        ...validators()
-    }
-};
+}

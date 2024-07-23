@@ -1,24 +1,27 @@
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.bibleStats = bibleStats;
+exports.getBibleBooks = getBibleBooks;
+exports.getBook = getBook;
+exports.getChapter = getChapter;
+exports.getChapterCount = getChapterCount;
+exports.getRange = getRange;
+exports.getVerse = getVerse;
+exports.getVerseCount = getVerseCount;
+exports.resolveAbbreviation = resolveAbbreviation;
+var _bible = _interopRequireDefault(require("./data/bible.json"));
+var _abbreviations = _interopRequireDefault(require("./utils/abbreviations"));
+var _validation = require("./utils/validation");
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-var bibleData = require("./data/bible.json");
-var abbreviations = require("./utils/abbreviations");
-var _require = require("./utils/validation"),
-  isValidBook = _require.isValidBook,
-  isValidChapter = _require.isValidChapter,
-  isValidVerse = _require.isValidVerse;
-
 /**
  * Retrieves a specific verse from the Bible data based on the provided book name, chapter number, and verse number.
  *
@@ -30,10 +33,10 @@ var _require = require("./utils/validation"),
  */
 function getVerse(bookName, chapterNumber, verseNumber) {
   var outputType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "default";
-  if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
+  if (!(0, _validation.isValidVerse)(bookName, chapterNumber, verseNumber)) {
     throw new Error('Invalid verse reference');
   }
-  var content = bibleData[bookName][chapterNumber][verseNumber - 1];
+  var content = _bible["default"][bookName][chapterNumber][verseNumber - 1];
   if (outputType === "indexed") {
     return [{
       key: "".concat(bookName, " ").concat(chapterNumber, ":").concat(verseNumber),
@@ -59,10 +62,10 @@ function getVerse(bookName, chapterNumber, verseNumber) {
  */
 function getChapter(bookName, chapterNumber) {
   var outputType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "default";
-  if (!isValidChapter(bookName, chapterNumber)) {
+  if (!(0, _validation.isValidChapter)(bookName, chapterNumber)) {
     throw new Error('Invalid chapter reference');
   }
-  var verses = bibleData[bookName][chapterNumber];
+  var verses = _bible["default"][bookName][chapterNumber];
   if (outputType === "indexed") {
     return verses.map(function (content, index) {
       return {
@@ -91,10 +94,10 @@ function getChapter(bookName, chapterNumber) {
  */
 function getBook(bookName) {
   var outputType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "default";
-  if (!isValidBook(bookName)) {
+  if (!(0, _validation.isValidBook)(bookName)) {
     throw new Error('Invalid book name');
   }
-  var chapters = bibleData[bookName];
+  var chapters = _bible["default"][bookName];
   if (outputType === "indexed") {
     return Object.entries(chapters).flatMap(function (_ref) {
       var _ref2 = _slicedToArray(_ref, 2),
@@ -132,10 +135,10 @@ function getBook(bookName) {
  * @return {number} The number of chapters in the specified book.
  */
 function getChapterCount(bookName) {
-  if (!isValidBook(bookName)) {
+  if (!(0, _validation.isValidBook)(bookName)) {
     throw new Error('Invalid book name');
   }
-  return Object.keys(bibleData[bookName]).length;
+  return Object.keys(_bible["default"][bookName]).length;
 }
 
 /**
@@ -147,10 +150,10 @@ function getChapterCount(bookName) {
  * @return {number} The number of verses in the specified chapter.
  */
 function getVerseCount(bookName, chapterNumber) {
-  if (!isValidChapter(bookName, chapterNumber)) {
+  if (!(0, _validation.isValidChapter)(bookName, chapterNumber)) {
     throw new Error('Invalid chapter reference');
   }
-  return bibleData[bookName][chapterNumber].length;
+  return _bible["default"][bookName][chapterNumber].length;
 }
 
 /**
@@ -159,7 +162,7 @@ function getVerseCount(bookName, chapterNumber) {
  * @return {Array} An array containing the names of all the Bible books.
  */
 function getBibleBooks() {
-  return Object.keys(bibleData);
+  return Object.keys(_bible["default"]);
 }
 
 /**
@@ -177,7 +180,7 @@ function getBibleBooks() {
  */
 function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber) {
   var outputType = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "default";
-  if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) || !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
+  if (!(0, _validation.isValidVerse)(startBookName, startChapterNumber, startVerseNumber) || !(0, _validation.isValidVerse)(endBookName, endChapterNumber, endVerseNumber)) {
     throw new Error('Invalid verse reference');
   }
   var verses = [];
@@ -230,15 +233,15 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
  * @return {string} The full name corresponding to the abbreviation.
  */
 function resolveAbbreviation(abbreviation) {
-  return abbreviations[abbreviation] || abbreviation;
+  return _abbreviations["default"][abbreviation] || abbreviation;
 }
 function bibleStats() {
   return {
-    books: Object.keys(bibleData).length,
-    chapters: Object.values(bibleData).reduce(function (sum, book) {
+    books: Object.keys(_bible["default"]).length,
+    chapters: Object.values(_bible["default"]).reduce(function (sum, book) {
       return sum + Object.keys(book).length;
     }, 0),
-    verses: Object.values(bibleData).reduce(function (sum, book) {
+    verses: Object.values(_bible["default"]).reduce(function (sum, book) {
       return sum + Object.values(book).reduce(function (sum, chapter) {
         return sum + chapter.length;
       }, 0);
@@ -253,20 +256,8 @@ function bibleStats() {
  */
 function validators() {
   return {
-    isValidBook: isValidBook,
-    isValidChapter: isValidChapter,
-    isValidVerse: isValidVerse
+    isValidBook: _validation.isValidBook,
+    isValidChapter: _validation.isValidChapter,
+    isValidVerse: _validation.isValidVerse
   };
 }
-module.exports = {
-  getVerse: getVerse,
-  getChapter: getChapter,
-  getBook: getBook,
-  getRange: getRange,
-  getChapterCount: getChapterCount,
-  getVerseCount: getVerseCount,
-  getBibleBooks: getBibleBooks,
-  resolveAbbreviation: resolveAbbreviation,
-  bibleStats: bibleStats,
-  bibleValidation: _objectSpread({}, validators())
-};

@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 var abbreviations = {
   'Gen': 'Genesis',
   'Ex': 'Exodus',
@@ -68,4 +72,4 @@ var abbreviations = {
   'Jude': 'Jude',
   'Rev': 'Revelation'
 };
-module.exports = abbreviations;
+var _default = exports["default"] = abbreviations;
