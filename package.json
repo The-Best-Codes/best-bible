@@ -1,18 +1,22 @@
 {
   "name": "best-bible",
-  "version": "1.1.6",
+  "version": "1.2.4",
   "type": "module",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "test": "node -r esm test/index.js",
     "build:ts": "tsc --project tsconfig.json",
-    "build:cjs": "cp src/index.js dist/index.cjs.js",
-    "build:esm": "npx babel src --extensions '.js,.ts' --out-dir dist --presets @babel/preset-env --copy-files",
-    "build": "npm run build:ts && npm run build:cjs && npm run build:esm",
+    "build:cjs": "cp -r src/index.cjs dist",
+    "build": "npm run build:ts && npm run build:cjs",
     "prepublishOnly": "npm run build"
   },
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/The-Best-Codes/best-bible.git"
@@ -45,7 +49,12 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "modules": false
+        }
+      ],
       "@babel/preset-typescript"
     ],
     "plugins": [
