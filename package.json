@@ -3,14 +3,15 @@
   "version": "1.1.0",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
-    "test": "node -r esm test/index.js",
-    "build:cjs": "cp src/index.js dist/index.cjs.js",
-    "build:esm": "npx babel src --out-dir dist --presets @babel/preset-env --copy-files",
-    "build": "npm run build:cjs && npm run build:esm",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:cjs": "babel src --out-dir dist --extensions \".ts,.js\" --presets @babel/preset-env,@babel/preset-typescript",
+    "build:esm": "babel src --out-dir dist/esm --extensions \".ts,.js\" --presets @babel/preset-env,@babel/preset-typescript",
+    "build": "npm run build:types && npm run build:cjs && npm run build:esm",
     "prepublishOnly": "npm run build"
   },
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/The-Best-Codes/best-bible.git"
@@ -34,14 +35,22 @@
     "@babel/cli": "^7.24.8",
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/node": "^20.14.11",
+    "@types/node-fetch": "^2.6.11",
     "babel-plugin-module-resolver": "^5.0.2",
     "esm": "^3.2.25",
+    "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "typescript": "^5.5.4",
+    "undici": "^6.19.4",
+    "undici-types": "^6.19.4"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      "@babel/preset-env",
+      "@babel/preset-typescript"
     ],
     "plugins": [
       [
