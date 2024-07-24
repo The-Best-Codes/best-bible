@@ -80,7 +80,7 @@ export function searchVerse(query: string, caseSensitive?: boolean | undefined, 
  * Parses a verse string and returns either an array of word objects or a cleaned string.
  *
  * @param {string} verse - The verse string to parse.
- * @param {string} [outputType="default"] - The type of output. Can be "default" or "indexed".
+ * @param {string} [outputType="default"] - The type of output. Can be "default", "string", or "indexed".
  * @return {Array|String} The parsed verse based on the output type.
  */
 export function parseVerse(verse: string, outputType?: string | undefined): any[] | string;

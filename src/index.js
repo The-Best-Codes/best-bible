@@ -6,47 +6,35 @@ const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validatio
  * Parses a verse string and returns either an array of word objects or a cleaned string.
  *
  * @param {string} verse - The verse string to parse.
- * @param {string} [outputType="default"] - The type of output. Can be "default" or "indexed".
+ * @param {string} [outputType="default"] - The type of output. Can be "default", "string", or "indexed".
  * @return {Array|String} The parsed verse based on the output type.
  */
 function parseVerse(verse, outputType = "default") {
-    const wordRegex = /[\s,;:.!?()]+/;
-    const words = verse.split(wordRegex);
-    const parsedWords = [];
+    // Remove translation identifiers (text within square brackets)
+    let cleanedVerse = verse.replace(/\[(.*?)\]/g, '$1');
 
-    let isParagraph = false;
+    // Remove any '#' at the start of the verse
+    cleanedVerse = cleanedVerse.replace(/^#\s*/, '');
 
-    words.forEach(word => {
-        let isTranslatorAdded = false;
-        let cleanWord = word;
+    // Trim any extra whitespace
+    cleanedVerse = cleanedVerse.trim();
 
-        // Check if the word is a paragraph indicator
-        if (cleanWord === '#') {
-            isParagraph = true;
-            return; // Skip adding the '#' to parsedWords
-        }
+    // Remove multiple spaces
+    cleanedVerse = cleanedVerse.replace(/\s+/g, ' ');
 
-        // Check if the word is added by translators
-        if (cleanWord.startsWith('[') && cleanWord.endsWith(']')) {
-            isTranslatorAdded = true;
-            cleanWord = cleanWord.substring(1, cleanWord.length - 1);
-        }
+    if (outputType === "default" || outputType === "string") {
+        return cleanedVerse;
+    } else if (outputType === "indexed") {
+        // Split the cleaned verse into words
+        const words = cleanedVerse.split(' ');
 
-        if (cleanWord) { // To avoid pushing empty strings
-            parsedWords.push({
-                word: cleanWord,
-                isParagraph: isParagraph,
-                isTranslatorAdded: isTranslatorAdded
-            });
-            isParagraph = false; // Reset paragraph indicator after using it
-        }
-    });
-
-    if (outputType === "indexed") {
-        return parsedWords;
+        // Create an array of word objects
+        return words.map((word, index) => ({
+            word: word,
+            index: index
+        }));
     } else {
-        // Return the cleaned verse
-        return parsedWords.map(wordObj => wordObj.word).join(' ');
+        throw new Error("Invalid outputType. Use 'default' or 'indexed'.");
     }
 }
 
