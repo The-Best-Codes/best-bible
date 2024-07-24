@@ -1,7 +1,9 @@
-const { getVerse, bibleStats } = require('../src/index');
+const { getVerse, bibleStats, searchVerse } = require('../src/index');
 
-const verse = getVerse('Genesis', 1, 1);
+const verse = getVerse('John', 3, 25);
 
 console.log(verse);
 
 console.log(bibleStats())
+
+//console.log(searchVerse('Jesus'))
