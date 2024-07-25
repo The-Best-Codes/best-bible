@@ -1,11 +1,12 @@
 {
   "name": "best-bible",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "build:cjs": "tsc --project tsconfig.cjs.json || true && mkdir -p dist/cjs/data && cp src/data/bible.json dist/cjs/data/",
     "build:esm": "tsc --project tsconfig.esm.json || true && mkdir -p dist/esm/data && cp src/data/bible.json dist/esm/data/",
-    "build": "npm run build:cjs && npm run build:esm",
+    "build:browser": "esbuild src/index.js --bundle --minify --sourcemap --platform=browser --target=es2015 --outfile=dist/browser/best-bible.min.js",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:browser",
     "prepublishOnly": "npm run build"
   },
   "main": "./dist/cjs/index.js",
@@ -15,9 +16,11 @@
     ".": {
       "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/types/index.d.ts",
+      "browser": "./dist/browser/best-bible.min.js"
     }
   },
+  "browser": "./dist/browser/best-bible.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/The-Best-Codes/best-bible.git"
@@ -43,6 +46,7 @@
     "@babel/preset-env": "^7.24.8",
     "@types/node": "^20.14.12",
     "babel-plugin-module-resolver": "^5.0.2",
+    "esbuild": "^0.23.0",
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
