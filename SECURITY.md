@@ -18,8 +18,8 @@ We are committed to providing security updates for the following versions of bes
 | Version | Supported          |
 | ------- | ------------------ |
 | (_Latest version is always supported_) | :white_check_mark: |
-| 1.1.0   | :white_check_mark: |
-| 1.0.9   | :white_check_mark: |
+| 1.4.5   | :white_check_mark: |
+| 1.1.5   | :white_check_mark: |
 | 1.0.8   | :x: |
 | 1.0.7   | :x: |
 | 1.0.6   | :x: |
