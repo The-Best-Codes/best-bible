@@ -5,57 +5,34 @@ on:
     types: [created]
 
 jobs:
-  update-security-md:
+  update-security:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
-      - name: Set up Node.js
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get current version
+        id: get_version
+        run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
 
       - name: Update SECURITY.md
+        run: node .github/scripts/update-security.js ${{ steps.get_version.outputs.version }}
+
+      - name: Commit changes
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          SECURITY_FILE="SECURITY.md"
-
-          # Read current content
-          CONTENT=$(cat $SECURITY_FILE)
-
-          # Extract current versions from the table
-          VERSIONS=$(echo "$CONTENT" | sed -n '/^| Version/,/^$/p' | grep -oP '^\| \d+\.\d+\.\d+' | awk '{print $2}' | sort -Vr)
-
-          # Prepare new versions list
-          NEW_VERSIONS="$VERSION\n$(echo "$VERSIONS" | head -n 2)"
-          NEW_VERSIONS+=$'\n1.4.5\n1.1.5'
-
-          # Generate new table content
-          TABLE_CONTENT="| Version | Supported          |\n| ------- | ------------------ |\n"
-          TABLE_CONTENT+="| (_Latest version is always supported_) | :white_check_mark: |\n"
-
-          while IFS= read -r ver; do
-            if [[ "$ver" == "$VERSION" || "$ver" == "1.4.5" || "$ver" == "1.1.5" || $(echo -e "$NEW_VERSIONS" | head -n 3 | grep -q "$ver") ]]; then
-              TABLE_CONTENT+="| $ver   | :white_check_mark: |\n"
-            else
-              TABLE_CONTENT+="| $ver   | :x: |\n"
-            fi
-          done <<< "$(echo -e "$NEW_VERSIONS\n$VERSIONS" | sort -Vr | uniq)"
-
-          # Update only the table in the file
-          sed -i '/^| Version/,/^$/c\'"$TABLE_CONTENT" $SECURITY_FILE
-
-      - name: Commit and push changes
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add SECURITY.md
+          git commit -m "Update SECURITY.md for version ${{ steps.get_version.outputs.version }}"
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git fetch origin
-          git checkout main
-          git pull origin main
-          git add SECURITY.md
-          git commit -m "Update SECURITY.md for new release" || exit 0
-          git push
