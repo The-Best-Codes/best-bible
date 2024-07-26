@@ -55,7 +55,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git fetch origin
           git checkout main
-          git pull --rebase origin main
+          git pull origin main
           git add SECURITY.md
           git commit -m "Update SECURITY.md for new release" || exit 0
           git push
