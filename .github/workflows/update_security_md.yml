@@ -51,6 +51,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git fetch origin
+          git checkout main
+          git pull
           git add SECURITY.md
           git commit -m "Update SECURITY.md for new release" || exit 0
           git push
