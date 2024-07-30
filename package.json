@@ -42,9 +42,9 @@
   "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
   "devDependencies": {
     "@babel/cli": "^7.24.8",
-    "@babel/core": "^7.24.9",
-    "@babel/preset-env": "^7.24.8",
-    "@types/node": "^20.14.12",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.2",
+    "@types/node": "^22.0.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "esbuild": "^0.23.0",
     "esm": "^3.2.25",
