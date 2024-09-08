@@ -1,4 +1,4 @@
-const { getVerse, bibleStats, searchVerse } = require('../src/index');
+const { getVerse, bibleStats, searchVerse } = require('../dist/cjs/index');
 
 const verse = getVerse('John', 3, 25);
 

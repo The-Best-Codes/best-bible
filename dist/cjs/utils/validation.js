@@ -1,11 +1,13 @@
 "use strict";
-const bibleData = require('../data/bible.json');
+// @ts-ignore
+const bibleData = require("../data/bible.json");
 /**
  * Checks if the provided book name is a valid entry in the bibleData.
  *
  * @param {string} bookName - The name of the book to check.
  * @return {boolean} Indicates whether the book name is valid.
  */
+// @ts-ignore
 function isValidBook(bookName) {
     return bibleData.hasOwnProperty(bookName);
 }
@@ -16,6 +18,7 @@ function isValidBook(bookName) {
  * @param {number} chapterNumber - The number of the chapter.
  * @return {boolean} Returns true if the chapter number is valid, false otherwise.
  */
+// @ts-ignore
 function isValidChapter(bookName, chapterNumber) {
     if (!isValidBook(bookName)) {
         return false;
@@ -31,6 +34,7 @@ function isValidChapter(bookName, chapterNumber) {
  * @param {number} verseNumber - The number of the verse.
  * @return {boolean} Returns true if the verse number is valid, false otherwise.
  */
+// @ts-ignore
 function isValidVerse(bookName, chapterNumber, verseNumber) {
     if (!isValidChapter(bookName, chapterNumber)) {
         return false;

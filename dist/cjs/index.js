@@ -1,7 +1,15 @@
 "use strict";
+// @ts-ignore
 const bibleData = require(`./data/bible.json`);
+// @ts-ignore
 const abbreviations = require(`./utils/abbreviations`);
-const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validation`);
+const { 
+// @ts-ignore
+isValidBook, 
+// @ts-ignore
+isValidChapter, 
+// @ts-ignore
+isValidVerse, } = require(`./utils/validation`);
 /**
  * Parses a verse string and returns either an array of word objects or a cleaned string.
  *
@@ -11,23 +19,23 @@ const { isValidBook, isValidChapter, isValidVerse } = require(`./utils/validatio
  */
 function parseVerse(verse, outputType = "default") {
     // Remove translation identifiers (text within square brackets)
-    let cleanedVerse = verse.replace(/\[(.*?)\]/g, '$1');
+    let cleanedVerse = verse.replace(/\[(.*?)\]/g, "$1");
     // Remove any '#' at the start of the verse
-    cleanedVerse = cleanedVerse.replace(/^#\s*/, '');
+    cleanedVerse = cleanedVerse.replace(/^#\s*/, "");
     // Trim any extra whitespace
     cleanedVerse = cleanedVerse.trim();
     // Remove multiple spaces
-    cleanedVerse = cleanedVerse.replace(/\s+/g, ' ');
+    cleanedVerse = cleanedVerse.replace(/\s+/g, " ");
     if (outputType === "default" || outputType === "string") {
         return cleanedVerse;
     }
     else if (outputType === "indexed") {
         // Split the cleaned verse into words
-        const words = cleanedVerse.split(' ');
+        const words = cleanedVerse.split(" ");
         // Create an array of word objects
         return words.map((word, index) => ({
             word: word,
-            index: index
+            index: index,
         }));
     }
     else {
@@ -46,20 +54,22 @@ function parseVerse(verse, outputType = "default") {
  */
 function getVerse(bookName, chapterNumber, verseNumber, outputType = "default", cleanVerse = true) {
     if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
-        throw new Error('Invalid verse reference');
+        throw new Error("Invalid verse reference");
     }
     let content = bibleData[bookName][chapterNumber][verseNumber - 1];
     if (cleanVerse) {
         content = parseVerse(content, "string");
     }
     if (outputType === "indexed") {
-        return [{
+        return [
+            {
                 key: `${bookName} ${chapterNumber}:${verseNumber}`,
                 book: bookName,
                 chapter: chapterNumber.toString(),
                 verse: verseNumber.toString(),
-                content: content
-            }];
+                content: content,
+            },
+        ];
     }
     else if (outputType === "string") {
         return `${bookName} ${chapterNumber}:${verseNumber} - ${content}`;
@@ -79,7 +89,7 @@ function getVerse(bookName, chapterNumber, verseNumber, outputType = "default", 
  */
 function getChapter(bookName, chapterNumber, outputType = "default", cleanVerse = true) {
     if (!isValidChapter(bookName, chapterNumber)) {
-        throw new Error('Invalid chapter reference');
+        throw new Error("Invalid chapter reference");
     }
     const verses = bibleData[bookName][chapterNumber];
     if (outputType === "indexed") {
@@ -88,11 +98,13 @@ function getChapter(bookName, chapterNumber, outputType = "default", cleanVerse 
             book: bookName,
             chapter: chapterNumber.toString(),
             verse: (index + 1).toString(),
-            content: cleanVerse ? parseVerse(content, "string") : content
+            content: cleanVerse ? parseVerse(content, "string") : content,
         }));
     }
     else if (outputType === "string") {
-        return verses.map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${cleanVerse ? parseVerse(content, "string") : content}`).join("\n");
+        return verses
+            .map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${cleanVerse ? parseVerse(content, "string") : content}`)
+            .join("\n");
     }
     else {
         return verses;
@@ -108,7 +120,7 @@ function getChapter(bookName, chapterNumber, outputType = "default", cleanVerse 
  */
 function getBook(bookName, outputType = "default", cleanVerse = true) {
     if (!isValidBook(bookName)) {
-        throw new Error('Invalid book name');
+        throw new Error("Invalid book name");
     }
     const chapters = bibleData[bookName];
     if (outputType === "indexed") {
@@ -117,11 +129,15 @@ function getBook(bookName, outputType = "default", cleanVerse = true) {
             book: bookName,
             chapter: chapterNumber,
             verse: (index + 1).toString(),
-            content: cleanVerse ? parseVerse(content, "string") : content
+            content: cleanVerse ? parseVerse(content, "string") : content,
         })));
     }
     else if (outputType === "string") {
-        return Object.entries(chapters).map(([chapterNumber, verses]) => verses.map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${cleanVerse ? parseVerse(content, "string") : content}`).join("\n")).join("\n\n");
+        return Object.entries(chapters)
+            .map(([chapterNumber, verses]) => verses
+            .map((content, index) => `${bookName} ${chapterNumber}:${index + 1} - ${cleanVerse ? parseVerse(content, "string") : content}`)
+            .join("\n"))
+            .join("\n\n");
     }
     else {
         return chapters;
@@ -136,7 +152,7 @@ function getBook(bookName, outputType = "default", cleanVerse = true) {
  */
 function getChapterCount(bookName) {
     if (!isValidBook(bookName)) {
-        throw new Error('Invalid book name');
+        throw new Error("Invalid book name");
     }
     return Object.keys(bibleData[bookName]).length;
 }
@@ -150,7 +166,7 @@ function getChapterCount(bookName) {
  */
 function getVerseCount(bookName, chapterNumber) {
     if (!isValidChapter(bookName, chapterNumber)) {
-        throw new Error('Invalid chapter reference');
+        throw new Error("Invalid chapter reference");
     }
     return bibleData[bookName][chapterNumber].length;
 }
@@ -177,8 +193,9 @@ function getBibleBooks() {
  * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
  */
 function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default", cleanVerse = true) {
-    if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) || !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
-        throw new Error('Invalid verse reference');
+    if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
+        !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
+        throw new Error("Invalid verse reference");
     }
     var verses = [];
     // Get the index of the start and end books
@@ -187,12 +204,16 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
     // Iterate through the books
     for (var bookIndex = startBookIndex; bookIndex <= endBookIndex; bookIndex++) {
         var bookName = getBibleBooks()[bookIndex];
-        var startChapter = (bookIndex === startBookIndex) ? startChapterNumber : 1;
-        var endChapter = (bookIndex === endBookIndex) ? endChapterNumber : getChapterCount(bookName);
+        var startChapter = bookIndex === startBookIndex ? startChapterNumber : 1;
+        var endChapter = bookIndex === endBookIndex ? endChapterNumber : getChapterCount(bookName);
         // Iterate through the chapters
         for (var chapterNumber = startChapter; chapterNumber <= endChapter; chapterNumber++) {
-            var startVerse = (bookIndex === startBookIndex && chapterNumber === startChapterNumber) ? startVerseNumber : 1;
-            var endVerse = (bookIndex === endBookIndex && chapterNumber === endChapterNumber) ? endVerseNumber : getVerseCount(bookName, chapterNumber);
+            var startVerse = bookIndex === startBookIndex && chapterNumber === startChapterNumber
+                ? startVerseNumber
+                : 1;
+            var endVerse = bookIndex === endBookIndex && chapterNumber === endChapterNumber
+                ? endVerseNumber
+                : getVerseCount(bookName, chapterNumber);
             // Iterate through the verses
             for (var verseNumber = startVerse; verseNumber <= endVerse; verseNumber++) {
                 let content = getVerse(bookName, chapterNumber, verseNumber)[0];
@@ -205,7 +226,7 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
                         book: bookName,
                         chapter: chapterNumber.toString(),
                         verse: verseNumber.toString(),
-                        content: content
+                        content: content,
                     });
                 }
                 else if (outputType === "string") {
@@ -225,14 +246,14 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
     }
 }
 /**
-* Searches for a query string in each verse of the Bible and returns the matching verses.
-*
-* @param {string} query - The query string to search for.
-* @param {boolean} [caseSensitive=false] - Whether the search should be case sensitive.
-* @param {boolean} [exactMatch=false] - Whether the search should match the exact phrase.
-* @param {string} [outputType="indexed"] - The type of output format desired (indexed or string).
-* @return {Array|string} The matching verses based on the output type.
-*/
+ * Searches for a query string in each verse of the Bible and returns the matching verses.
+ *
+ * @param {string} query - The query string to search for.
+ * @param {boolean} [caseSensitive=false] - Whether the search should be case sensitive.
+ * @param {boolean} [exactMatch=false] - Whether the search should match the exact phrase.
+ * @param {string} [outputType="indexed"] - The type of output format desired (indexed or string).
+ * @return {Array|string} The matching verses based on the output type.
+ */
 function searchVerse(query, caseSensitive = false, exactMatch = false, outputType = "indexed") {
     let searchResults = [];
     // Normalize query based on case sensitivity
@@ -241,11 +262,13 @@ function searchVerse(query, caseSensitive = false, exactMatch = false, outputTyp
         for (let chapter in bibleData[book]) {
             for (let verse in bibleData[book][chapter]) {
                 const verseContent = bibleData[book][chapter][verse];
-                const normalizedContent = caseSensitive ? verseContent : verseContent.toLowerCase();
+                const normalizedContent = caseSensitive
+                    ? verseContent
+                    : verseContent.toLowerCase();
                 // Check for exact match or substring match
                 let matchCondition;
                 if (exactMatch) {
-                    const regex = new RegExp(`\\b${normalizedQuery}\\b`, caseSensitive ? '' : 'i');
+                    const regex = new RegExp(`\\b${normalizedQuery}\\b`, caseSensitive ? "" : "i");
                     matchCondition = regex.test(normalizedContent);
                 }
                 else {
@@ -257,14 +280,16 @@ function searchVerse(query, caseSensitive = false, exactMatch = false, outputTyp
                         book: book,
                         chapter: chapter,
                         verse: verse,
-                        content: verseContent
+                        content: verseContent,
                     });
                 }
             }
         }
     }
     if (outputType === "string") {
-        return searchResults.map(result => `${result.book} ${result.chapter}:${result.verse} - ${result.content}`).join("\n");
+        return searchResults
+            .map((result) => `${result.book} ${result.chapter}:${result.verse} - ${result.content}`)
+            .join("\n");
     }
     else if (outputType === "indexed") {
         return searchResults;
@@ -288,7 +313,8 @@ function bibleStats() {
     return {
         books: Object.keys(bibleData).length,
         chapters: Object.values(bibleData).reduce((sum, book) => sum + Object.keys(book).length, 0),
-        verses: Object.values(bibleData).reduce((sum, book) => sum + Object.values(book).reduce((sum, chapter) => sum + chapter.length, 0), 0),
+        verses: Object.values(bibleData).reduce((sum, book) => sum +
+            Object.values(book).reduce((sum, chapter) => sum + chapter.length, 0), 0),
     };
 }
 /**
@@ -300,7 +326,7 @@ function validators() {
     return {
         isValidBook,
         isValidChapter,
-        isValidVerse
+        isValidVerse,
     };
 }
 module.exports = {
@@ -315,5 +341,5 @@ module.exports = {
     parseVerse,
     resolveAbbreviation,
     bibleStats,
-    bibleValidation: Object.assign({}, validators())
+    bibleValidation: Object.assign({}, validators()),
 };
