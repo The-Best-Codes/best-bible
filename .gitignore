@@ -123,3 +123,8 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# deprecated stuff
+.deprecated
+.deprecated/*
+.deprecated/*.json
