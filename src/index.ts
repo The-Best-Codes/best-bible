@@ -17,6 +17,7 @@ const {
  * @param {string} verse - The verse string to parse.
  * @param {string} [outputType="default"] - The type of output. Can be "default", "string", or "indexed".
  * @return {Array|String} The parsed verse based on the output type.
+ * @deprecated The bible.json file no longer has translation markers, so this function is not needed.
  */
 function parseVerse(verse: string, outputType: string = "default") {
   /* @deprecated: The bible.json file will resolve these errors itself. */
@@ -66,6 +67,9 @@ function getVerse(
   chapterNumber: number,
   verseNumber: number,
   outputType: string = "default",
+  /**
+   * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+   */
   cleanVerse: boolean = true
 ) {
   if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
@@ -106,6 +110,9 @@ function getChapter(
   bookName: string,
   chapterNumber: number,
   outputType: string = "default",
+  /**
+   * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+   */
   cleanVerse: boolean = true
 ) {
   if (!isValidChapter(bookName, chapterNumber)) {
@@ -145,6 +152,9 @@ function getChapter(
 function getBook(
   bookName: string,
   outputType: string = "default",
+  /**
+   * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+   */
   cleanVerse: boolean = true
 ) {
   if (!isValidBook(bookName)) {
@@ -239,6 +249,9 @@ function getRange(
   endChapterNumber: number,
   endVerseNumber: number,
   outputType: string = "default",
+  /**
+   * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+   */
   cleanVerse: boolean = true
 ) {
   if (
