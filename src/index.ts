@@ -19,17 +19,21 @@ const {
  * @return {Array|String} The parsed verse based on the output type.
  */
 function parseVerse(verse: string, outputType: string = "default") {
+  /* @deprecated: The bible.json file will resolve these errors itself. */
   // Remove translation identifiers (text within square brackets)
-  let cleanedVerse = verse.replace(/\[(.*?)\]/g, "$1");
+  //let cleanedVerse = verse.replace(/\[(.*?)\]/g, "$1");
 
   // Remove any '#' at the start of the verse
-  cleanedVerse = cleanedVerse.replace(/^#\s*/, "");
+  //cleanedVerse = cleanedVerse.replace(/^#\s*/, "");
 
   // Trim any extra whitespace
-  cleanedVerse = cleanedVerse.trim();
+  //cleanedVerse = cleanedVerse.trim();
 
   // Remove multiple spaces
-  cleanedVerse = cleanedVerse.replace(/\s+/g, " ");
+  //cleanedVerse = cleanedVerse.replace(/\s+/g, " ");
+  /* @end-deprecated */
+
+  let cleanedVerse = verse;
 
   if (outputType === "default" || outputType === "string") {
     return cleanedVerse;
