@@ -19,7 +19,7 @@ const {
  * @return {Array|String} The parsed verse based on the output type.
  * @deprecated The bible.json file no longer has translation markers, so this function is not needed.
  */
-function parseVerse(verse: string, outputType: string = "default") {
+export function parseVerse(verse: string, outputType: string = "default") {
   /* @deprecated: The bible.json file will resolve these errors itself. */
   // Remove translation identifiers (text within square brackets)
   //let cleanedVerse = verse.replace(/\[(.*?)\]/g, "$1");
@@ -62,7 +62,7 @@ function parseVerse(verse: string, outputType: string = "default") {
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|string} The content of the requested verse based on the output type.
  */
-function getVerse(
+export function getVerse(
   bookName: string,
   chapterNumber: number,
   verseNumber: number,
@@ -106,7 +106,7 @@ function getVerse(
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|String} The information about the chapter based on the output type.
  */
-function getChapter(
+export function getChapter(
   bookName: string,
   chapterNumber: number,
   outputType: string = "default",
@@ -149,7 +149,7 @@ function getChapter(
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|String|Object} The information about the book based on the output type.
  */
-function getBook(
+export function getBook(
   bookName: string,
   outputType: string = "default",
   /**
@@ -196,7 +196,7 @@ function getBook(
  * @throws {Error} Throws an error if the book name is invalid.
  * @return {number} The number of chapters in the specified book.
  */
-function getChapterCount(bookName: string) {
+export function getChapterCount(bookName: string) {
   if (!isValidBook(bookName)) {
     throw new Error("Invalid book name");
   }
@@ -211,7 +211,7 @@ function getChapterCount(bookName: string) {
  * @throws {Error} Throws an error if the chapter reference is invalid.
  * @return {number} The number of verses in the specified chapter.
  */
-function getVerseCount(bookName: string, chapterNumber: number) {
+export function getVerseCount(bookName: string, chapterNumber: number) {
   if (!isValidChapter(bookName, chapterNumber)) {
     throw new Error("Invalid chapter reference");
   }
@@ -223,7 +223,7 @@ function getVerseCount(bookName: string, chapterNumber: number) {
  *
  * @return {Array} An array containing the names of all the Bible books.
  */
-function getBibleBooks() {
+export function getBibleBooks() {
   return Object.keys(bibleData);
 }
 
@@ -241,7 +241,7 @@ function getBibleBooks() {
  * @throws {Error} Throws an error if the verse reference is invalid.
  * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
  */
-function getRange(
+export function getRange(
   startBookName: string,
   startChapterNumber: number,
   startVerseNumber: number,
@@ -335,7 +335,7 @@ function getRange(
  * @param {string} [outputType="indexed"] - The type of output format desired (indexed or string).
  * @return {Array|string} The matching verses based on the output type.
  */
-function searchVerse(
+export function searchVerse(
   query: string,
   caseSensitive: boolean = false,
   exactMatch: boolean = false,
@@ -397,7 +397,7 @@ function searchVerse(
  * @param {string} abbreviation - The abbreviation to resolve.
  * @return {string} The full name corresponding to the abbreviation.
  */
-function resolveAbbreviation(abbreviation: string) {
+export function resolveAbbreviation(abbreviation: string) {
   return abbreviations[abbreviation] || abbreviation;
 }
 
@@ -406,7 +406,7 @@ function resolveAbbreviation(abbreviation: string) {
  *
  * @return {Object} An object with the number of books, chapters, and verses in the Bible.
  */
-function bibleStats() {
+export function bibleStats() {
   return {
     books: Object.keys(bibleData).length,
     chapters: Object.values(bibleData).reduce(
@@ -430,7 +430,7 @@ function bibleStats() {
  *
  * @return {Object} An object with the validation functions as properties.
  */
-function validators() {
+export function bibleValidation() {
   return {
     isValidBook,
     isValidChapter,
@@ -438,7 +438,7 @@ function validators() {
   };
 }
 
-module.exports = {
+/* module.exports = {
   getVerse,
   getChapter,
   getBook,
@@ -453,4 +453,4 @@ module.exports = {
   bibleValidation: {
     ...validators(),
   },
-};
+}; */

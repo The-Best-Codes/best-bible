@@ -1,4 +1,3 @@
-"use strict";
 // @ts-ignore
 const bibleData = require(`./data/bible.json`);
 // @ts-ignore
@@ -16,8 +15,9 @@ isValidVerse, } = require(`./utils/validation`);
  * @param {string} verse - The verse string to parse.
  * @param {string} [outputType="default"] - The type of output. Can be "default", "string", or "indexed".
  * @return {Array|String} The parsed verse based on the output type.
+ * @deprecated The bible.json file no longer has translation markers, so this function is not needed.
  */
-function parseVerse(verse, outputType = "default") {
+export function parseVerse(verse, outputType = "default") {
     /* @deprecated: The bible.json file will resolve these errors itself. */
     // Remove translation identifiers (text within square brackets)
     //let cleanedVerse = verse.replace(/\[(.*?)\]/g, "$1");
@@ -55,7 +55,11 @@ function parseVerse(verse, outputType = "default") {
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|string} The content of the requested verse based on the output type.
  */
-function getVerse(bookName, chapterNumber, verseNumber, outputType = "default", cleanVerse = true) {
+export function getVerse(bookName, chapterNumber, verseNumber, outputType = "default", 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse = true) {
     if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
         throw new Error("Invalid verse reference");
     }
@@ -90,7 +94,11 @@ function getVerse(bookName, chapterNumber, verseNumber, outputType = "default", 
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|String} The information about the chapter based on the output type.
  */
-function getChapter(bookName, chapterNumber, outputType = "default", cleanVerse = true) {
+export function getChapter(bookName, chapterNumber, outputType = "default", 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse = true) {
     if (!isValidChapter(bookName, chapterNumber)) {
         throw new Error("Invalid chapter reference");
     }
@@ -121,7 +129,11 @@ function getChapter(bookName, chapterNumber, outputType = "default", cleanVerse 
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|String|Object} The information about the book based on the output type.
  */
-function getBook(bookName, outputType = "default", cleanVerse = true) {
+export function getBook(bookName, outputType = "default", 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse = true) {
     if (!isValidBook(bookName)) {
         throw new Error("Invalid book name");
     }
@@ -153,7 +165,7 @@ function getBook(bookName, outputType = "default", cleanVerse = true) {
  * @throws {Error} Throws an error if the book name is invalid.
  * @return {number} The number of chapters in the specified book.
  */
-function getChapterCount(bookName) {
+export function getChapterCount(bookName) {
     if (!isValidBook(bookName)) {
         throw new Error("Invalid book name");
     }
@@ -167,7 +179,7 @@ function getChapterCount(bookName) {
  * @throws {Error} Throws an error if the chapter reference is invalid.
  * @return {number} The number of verses in the specified chapter.
  */
-function getVerseCount(bookName, chapterNumber) {
+export function getVerseCount(bookName, chapterNumber) {
     if (!isValidChapter(bookName, chapterNumber)) {
         throw new Error("Invalid chapter reference");
     }
@@ -178,7 +190,7 @@ function getVerseCount(bookName, chapterNumber) {
  *
  * @return {Array} An array containing the names of all the Bible books.
  */
-function getBibleBooks() {
+export function getBibleBooks() {
     return Object.keys(bibleData);
 }
 /**
@@ -195,7 +207,11 @@ function getBibleBooks() {
  * @throws {Error} Throws an error if the verse reference is invalid.
  * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
  */
-function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default", cleanVerse = true) {
+export function getRange(startBookName, startChapterNumber, startVerseNumber, endBookName, endChapterNumber, endVerseNumber, outputType = "default", 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse = true) {
     if (!isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
         !isValidVerse(endBookName, endChapterNumber, endVerseNumber)) {
         throw new Error("Invalid verse reference");
@@ -257,7 +273,7 @@ function getRange(startBookName, startChapterNumber, startVerseNumber, endBookNa
  * @param {string} [outputType="indexed"] - The type of output format desired (indexed or string).
  * @return {Array|string} The matching verses based on the output type.
  */
-function searchVerse(query, caseSensitive = false, exactMatch = false, outputType = "indexed") {
+export function searchVerse(query, caseSensitive = false, exactMatch = false, outputType = "indexed") {
     let searchResults = [];
     // Normalize query based on case sensitivity
     const normalizedQuery = caseSensitive ? query : query.toLowerCase();
@@ -304,7 +320,7 @@ function searchVerse(query, caseSensitive = false, exactMatch = false, outputTyp
  * @param {string} abbreviation - The abbreviation to resolve.
  * @return {string} The full name corresponding to the abbreviation.
  */
-function resolveAbbreviation(abbreviation) {
+export function resolveAbbreviation(abbreviation) {
     return abbreviations[abbreviation] || abbreviation;
 }
 /**
@@ -312,7 +328,7 @@ function resolveAbbreviation(abbreviation) {
  *
  * @return {Object} An object with the number of books, chapters, and verses in the Bible.
  */
-function bibleStats() {
+export function bibleStats() {
     return {
         books: Object.keys(bibleData).length,
         chapters: Object.values(bibleData).reduce((sum, book) => sum + Object.keys(book).length, 0),
@@ -325,26 +341,26 @@ function bibleStats() {
  *
  * @return {Object} An object with the validation functions as properties.
  */
-function validators() {
+export function bibleValidation() {
     return {
         isValidBook,
         isValidChapter,
         isValidVerse,
     };
 }
-module.exports = {
-    getVerse,
-    getChapter,
-    getBook,
-    getRange,
-    getChapterCount,
-    getVerseCount,
-    getBibleBooks,
-    searchVerse,
-    parseVerse,
-    resolveAbbreviation,
-    bibleStats,
-    bibleValidation: {
-        ...validators(),
-    },
-};
+/* module.exports = {
+  getVerse,
+  getChapter,
+  getBook,
+  getRange,
+  getChapterCount,
+  getVerseCount,
+  getBibleBooks,
+  searchVerse,
+  parseVerse,
+  resolveAbbreviation,
+  bibleStats,
+  bibleValidation: {
+    ...validators(),
+  },
+}; */

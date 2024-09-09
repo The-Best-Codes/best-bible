@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.5.9",
+  "version": "1.6.0",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "build:cjs": "tsc --project tsconfig.cjs.json || true && mkdir -p dist/cjs/data && cp src/data/bible.json dist/cjs/data/",

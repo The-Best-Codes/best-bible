@@ -1,14 +1,12 @@
-declare const bibleData: any;
-declare const abbreviations: any;
-declare const isValidBook: any, isValidChapter: any, isValidVerse: any;
 /**
  * Parses a verse string and returns either an array of word objects or a cleaned string.
  *
  * @param {string} verse - The verse string to parse.
  * @param {string} [outputType="default"] - The type of output. Can be "default", "string", or "indexed".
  * @return {Array|String} The parsed verse based on the output type.
+ * @deprecated The bible.json file no longer has translation markers, so this function is not needed.
  */
-declare function parseVerse(verse: string, outputType?: string): string | {
+export declare function parseVerse(verse: string, outputType?: string): string | {
     word: string;
     index: number;
 }[];
@@ -22,7 +20,11 @@ declare function parseVerse(verse: string, outputType?: string): string | {
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|string} The content of the requested verse based on the output type.
  */
-declare function getVerse(bookName: string, chapterNumber: number, verseNumber: number, outputType?: string, cleanVerse?: boolean): string | any[];
+export declare function getVerse(bookName: string, chapterNumber: number, verseNumber: number, outputType?: string, 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse?: boolean): string | any[];
 /**
  * Retrieves information about a chapter from the Bible data.
  *
@@ -32,7 +34,11 @@ declare function getVerse(bookName: string, chapterNumber: number, verseNumber: 
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|String} The information about the chapter based on the output type.
  */
-declare function getChapter(bookName: string, chapterNumber: number, outputType?: string, cleanVerse?: boolean): any;
+export declare function getChapter(bookName: string, chapterNumber: number, outputType?: string, 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse?: boolean): any;
 /**
  * Retrieves information about a book from the Bible data.
  *
@@ -41,7 +47,11 @@ declare function getChapter(bookName: string, chapterNumber: number, outputType?
  * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
  * @return {Array|String|Object} The information about the book based on the output type.
  */
-declare function getBook(bookName: string, outputType?: string, cleanVerse?: boolean): any;
+export declare function getBook(bookName: string, outputType?: string, 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse?: boolean): any;
 /**
  * Retrieves the number of chapters in a specific book of the Bible.
  *
@@ -49,7 +59,7 @@ declare function getBook(bookName: string, outputType?: string, cleanVerse?: boo
  * @throws {Error} Throws an error if the book name is invalid.
  * @return {number} The number of chapters in the specified book.
  */
-declare function getChapterCount(bookName: string): number;
+export declare function getChapterCount(bookName: string): number;
 /**
  * Retrieves the number of verses in a specific chapter of a book in the Bible.
  *
@@ -58,13 +68,13 @@ declare function getChapterCount(bookName: string): number;
  * @throws {Error} Throws an error if the chapter reference is invalid.
  * @return {number} The number of verses in the specified chapter.
  */
-declare function getVerseCount(bookName: string, chapterNumber: number): any;
+export declare function getVerseCount(bookName: string, chapterNumber: number): any;
 /**
  * Retrieves the list of Bible books.
  *
  * @return {Array} An array containing the names of all the Bible books.
  */
-declare function getBibleBooks(): string[];
+export declare function getBibleBooks(): string[];
 /**
  * Retrieves a range of verses from the Bible based on the provided start and end references.
  *
@@ -79,7 +89,11 @@ declare function getBibleBooks(): string[];
  * @throws {Error} Throws an error if the verse reference is invalid.
  * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
  */
-declare function getRange(startBookName: string, startChapterNumber: number, startVerseNumber: number, endBookName: string, endChapterNumber: number, endVerseNumber: number, outputType?: string, cleanVerse?: boolean): string | any[];
+export declare function getRange(startBookName: string, startChapterNumber: number, startVerseNumber: number, endBookName: string, endChapterNumber: number, endVerseNumber: number, outputType?: string, 
+/**
+ * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
+ */
+cleanVerse?: boolean): string | any[];
 /**
  * Searches for a query string in each verse of the Bible and returns the matching verses.
  *
@@ -89,7 +103,7 @@ declare function getRange(startBookName: string, startChapterNumber: number, sta
  * @param {string} [outputType="indexed"] - The type of output format desired (indexed or string).
  * @return {Array|string} The matching verses based on the output type.
  */
-declare function searchVerse(query: string, caseSensitive?: boolean, exactMatch?: boolean, outputType?: string): string | {
+export declare function searchVerse(query: string, caseSensitive?: boolean, exactMatch?: boolean, outputType?: string): string | {
     key: string;
     book: string;
     chapter: string;
@@ -102,13 +116,13 @@ declare function searchVerse(query: string, caseSensitive?: boolean, exactMatch?
  * @param {string} abbreviation - The abbreviation to resolve.
  * @return {string} The full name corresponding to the abbreviation.
  */
-declare function resolveAbbreviation(abbreviation: string): any;
+export declare function resolveAbbreviation(abbreviation: string): any;
 /**
  * Returns an object containing the number of books, chapters, and verses in the Bible.
  *
  * @return {Object} An object with the number of books, chapters, and verses in the Bible.
  */
-declare function bibleStats(): {
+export declare function bibleStats(): {
     books: number;
     chapters: number;
     verses: number;
@@ -118,7 +132,7 @@ declare function bibleStats(): {
  *
  * @return {Object} An object with the validation functions as properties.
  */
-declare function validators(): {
+export declare function bibleValidation(): {
     isValidBook: any;
     isValidChapter: any;
     isValidVerse: any;
