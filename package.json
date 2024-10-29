@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "build:cjs": "tsc --project tsconfig.cjs.json || true && mkdir -p dist/cjs/data && cp src/data/bible.json dist/cjs/data/",
@@ -48,12 +48,12 @@
   },
   "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
   "devDependencies": {
-    "@types/node": "^22.5.5",
+    "@types/node": "^22.8.2",
     "esbuild": "^0.24.0",
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
-    "terser": "^5.34.1",
-    "typescript": "^5.6.2"
+    "terser": "^5.36.0",
+    "typescript": "^5.6.3"
   }
 }
