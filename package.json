@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.6.7",
+  "version": "1.6.8",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "prebuild": "rm -rf dist",
@@ -51,6 +51,7 @@
   "devDependencies": {
     "@types/node": "^22.9.0",
     "esbuild": "^0.24.0",
+    "terser": "^5.36.0",
     "typescript": "^5.6.3"
   }
 }
