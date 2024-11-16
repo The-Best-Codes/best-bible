@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
   "devDependencies": {
-    "@types/node": "^22.8.2",
+    "@types/node": "^22.9.0",
     "esbuild": "^0.24.0",
     "esm": "^3.2.25",
     "fs": "^0.0.1-security",
