@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outFile": "./dist/types/index.d.ts",
+    "moduleResolution": "node",
+    "module": "amd",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "rootDir": "./src"
+  },
+  "include": ["src/index.ts"],
+  "exclude": ["dist", "node_modules", "src/browser.ts"]
+}
