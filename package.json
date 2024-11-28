@@ -12,7 +12,7 @@
     "build": "npm run prebuild && npm run build:cjs && npm run build:esm && npm run build:browser && npm run minify:cjs && npm run minify:esm",
     "prepublishOnly": "npm run build"
   },
-  "packageManager": "pnpm@9.14.3",
+  "packageManager": "bun@1.1.37",
   "files": [
     "dist",
     "README.md",
