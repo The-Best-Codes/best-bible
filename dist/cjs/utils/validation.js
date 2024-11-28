@@ -1,1 +1,0 @@
-"use strict";const bibleData=require("../data/bible.json");function isValidBook(i){return bibleData.hasOwnProperty(i)}function isValidChapter(i,a){return!!isValidBook(i)&&bibleData[i].hasOwnProperty(a)}module.exports={isValidBook:isValidBook,isValidChapter:isValidChapter,isValidVerse:function(i,a,e){return!!isValidChapter(i,a)&&e>=1&&e<=bibleData[i][a].length}};

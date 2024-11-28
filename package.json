@@ -4,13 +4,13 @@
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build:cjs": "tsc --project tsconfig.cjs.json || true && mkdir -p dist/cjs/data && cp src/data/bible.json dist/cjs/data/",
-    "build:esm": "tsc --project tsconfig.esm.json || true && mkdir -p dist/esm/data && cp src/data/bible.json dist/esm/data/",
-    "build:browser": "esbuild src/browser.ts --bundle --minify --format=iife --platform=browser --target=es2015 --outfile=dist/browser/best-bible.min.js --tree-shaking=true --minify-whitespace --minify-identifiers --minify-syntax",
-    "minify:cjs": "find dist/cjs -name '*.js' -type f -exec terser {} --compress passes=3,pure_getters,toplevel,unsafe_math --mangle --output {} \\;",
-    "minify:esm": "find dist/esm -name '*.js' -type f -exec terser {} --compress passes=3,pure_getters,toplevel,unsafe_math --mangle --output {} \\;",
-    "build": "npm run prebuild && npm run build:cjs && npm run build:esm && npm run build:browser && npm run minify:cjs && npm run minify:esm",
-    "prepublishOnly": "npm run build"
+    "build:cjs": "bun build src/index.ts --outdir dist/cjs --target node --format cjs --minify",
+    "build:esm": "bun build src/index.ts --outdir dist/esm --target node --format esm --minify",
+    "build:types": "tsc --declaration --emitDeclarationOnly --project tsconfig.json",
+    "build:browser": "bun build src/browser.ts --outfile dist/browser/best-bible.min.js --target browser --minify",
+    "build": "npm run prebuild && npm run build:cjs && npm run build:esm && npm run build:browser && npm run build:types",
+    "prepublishOnly": "npm run build",
+    "test": "bun test"
   },
   "packageManager": "bun@1.1.37",
   "files": [
@@ -53,7 +53,9 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.1",
+    "@types/bun": "^1.1.14",
     "@types/node": "^22.10.1",
+    "bun-types": "^1.1.37",
     "esbuild": "^0.24.0",
     "rollup": "^4.27.4",
     "terser": "^5.36.0",
