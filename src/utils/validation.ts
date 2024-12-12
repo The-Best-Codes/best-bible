@@ -40,7 +40,7 @@ function isValidChapter(bookName: string, chapterNumber: number) {
 function isValidVerse(
   bookName: string,
   chapterNumber: number,
-  verseNumber: number
+  verseNumber: number,
 ) {
   if (!isValidChapter(bookName, chapterNumber)) {
     return false;

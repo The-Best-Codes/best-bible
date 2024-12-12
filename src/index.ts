@@ -70,7 +70,7 @@ export function getVerse(
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
-  cleanVerse: boolean = true
+  cleanVerse: boolean = true,
 ) {
   if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
     throw new Error("Invalid verse reference");
@@ -113,7 +113,7 @@ export function getChapter(
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
-  cleanVerse: boolean = true
+  cleanVerse: boolean = true,
 ) {
   if (!isValidChapter(bookName, chapterNumber)) {
     throw new Error("Invalid chapter reference");
@@ -133,7 +133,7 @@ export function getChapter(
         (content: string, index: number) =>
           `${bookName} ${chapterNumber}:${index + 1} - ${
             cleanVerse ? parseVerse(content, "string") : content
-          }`
+          }`,
       )
       .join("\n");
   } else {
@@ -155,7 +155,7 @@ export function getBook(
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
-  cleanVerse: boolean = true
+  cleanVerse: boolean = true,
 ) {
   if (!isValidBook(bookName)) {
     throw new Error("Invalid book name");
@@ -169,7 +169,7 @@ export function getBook(
         chapter: chapterNumber,
         verse: (index + 1).toString(),
         content: cleanVerse ? parseVerse(content, "string") : content,
-      }))
+      })),
     );
   } else if (outputType === "string") {
     return Object.entries(chapters)
@@ -179,9 +179,9 @@ export function getBook(
             (content: string, index: number) =>
               `${bookName} ${chapterNumber}:${index + 1} - ${
                 cleanVerse ? parseVerse(content, "string") : content
-              }`
+              }`,
           )
-          .join("\n")
+          .join("\n"),
       )
       .join("\n\n");
   } else {
@@ -252,7 +252,7 @@ export function getRange(
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
-  cleanVerse: boolean = true
+  cleanVerse: boolean = true,
 ) {
   if (
     !isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
@@ -310,7 +310,7 @@ export function getRange(
           });
         } else if (outputType === "string") {
           verses.push(
-            `${bookName} ${chapterNumber}:${verseNumber} - ${content}`
+            `${bookName} ${chapterNumber}:${verseNumber} - ${content}`,
           );
         } else {
           verses.push(content);
@@ -339,7 +339,7 @@ export function searchVerse(
   query: string,
   caseSensitive: boolean = false,
   exactMatch: boolean = false,
-  outputType: string = "indexed"
+  outputType: string = "indexed",
 ) {
   let searchResults = [];
 
@@ -359,7 +359,7 @@ export function searchVerse(
         if (exactMatch) {
           const regex = new RegExp(
             `\\b${normalizedQuery}\\b`,
-            caseSensitive ? "" : "i"
+            caseSensitive ? "" : "i",
           );
           matchCondition = regex.test(normalizedContent);
         } else {
@@ -383,7 +383,7 @@ export function searchVerse(
     return searchResults
       .map(
         (result) =>
-          `${result.book} ${result.chapter}:${result.verse} - ${result.content}`
+          `${result.book} ${result.chapter}:${result.verse} - ${result.content}`,
       )
       .join("\n");
   } else if (outputType === "indexed") {
@@ -411,16 +411,16 @@ export function bibleStats() {
     books: Object.keys(bibleData).length,
     chapters: Object.values(bibleData).reduce(
       (sum: number, book: any) => sum + Object.keys(book).length,
-      0
+      0,
     ),
     verses: Object.values(bibleData).reduce(
       (sum: number, book: any) =>
         sum +
         Object.values(book).reduce(
           (sum: number, chapter: any) => sum + chapter.length,
-          0
+          0,
         ),
-      0
+      0,
     ),
   };
 }
