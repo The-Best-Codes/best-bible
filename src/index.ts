@@ -1,48 +1,42 @@
+import jsonBibleData from "./data/bible.json";
+import BibleData from "./types/bible";
+import abbreviations from "./utils/abbreviations";
+import { isValidBook, isValidChapter, isValidVerse } from "./utils/validation";
+
 // @ts-ignore
-const bibleData = require(`./data/bible.json`);
-// @ts-ignore
-const abbreviations = require(`./utils/abbreviations`);
-const {
-  // @ts-ignore
-  isValidBook,
-  // @ts-ignore
-  isValidChapter,
-  // @ts-ignore
-  isValidVerse,
-} = require(`./utils/validation`);
+const bibleData: BibleData = jsonBibleData;
+
+interface Word {
+  word: string;
+  index: number;
+}
+
+interface VerseResult {
+  key: string;
+  book: string;
+  chapter: string;
+  verse: string;
+  content: string;
+}
 
 /**
  * Parses a verse string and returns either an array of word objects or a cleaned string.
  *
- * @param {string} verse - The verse string to parse.
- * @param {string} [outputType="default"] - The type of output. Can be "default", "string", or "indexed".
- * @return {Array|String} The parsed verse based on the output type.
+ * @param verse - The verse string to parse.
+ * @param outputType - The type of output. Can be "default", "string", or "indexed".
+ * @return The parsed verse based on the output type.
  * @deprecated The bible.json file no longer has translation markers, so this function is not needed.
  */
-export function parseVerse(verse: string, outputType: string = "default") {
-  /* @deprecated: The bible.json file will resolve these errors itself. */
-  // Remove translation identifiers (text within square brackets)
-  //let cleanedVerse = verse.replace(/\[(.*?)\]/g, "$1");
-
-  // Remove any '#' at the start of the verse
-  //cleanedVerse = cleanedVerse.replace(/^#\s*/, "");
-
-  // Trim any extra whitespace
-  //cleanedVerse = cleanedVerse.trim();
-
-  // Remove multiple spaces
-  //cleanedVerse = cleanedVerse.replace(/\s+/g, " ");
-  /* @end-deprecated */
-
+export function parseVerse(
+  verse: string,
+  outputType: "default" | "string" | "indexed" = "default",
+): Array<Word> | string {
   let cleanedVerse = verse;
 
   if (outputType === "default" || outputType === "string") {
     return cleanedVerse;
   } else if (outputType === "indexed") {
-    // Split the cleaned verse into words
     const words = cleanedVerse.split(" ");
-
-    // Create an array of word objects
     return words.map((word, index) => ({
       word: word,
       index: index,
@@ -55,31 +49,32 @@ export function parseVerse(verse: string, outputType: string = "default") {
 /**
  * Retrieves a specific verse from the Bible data based on the provided book name, chapter number, and verse number.
  *
- * @param {string} bookName - The name of the book containing the verse.
- * @param {number} chapterNumber - The number of the chapter containing the verse.
- * @param {number} verseNumber - The number of the verse to retrieve.
- * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
- * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
- * @return {Array|string} The content of the requested verse based on the output type.
+ * @param bookName - The name of the book containing the verse.
+ * @param chapterNumber - The number of the chapter containing the verse.
+ * @param verseNumber - The number of the verse to retrieve.
+ * @param outputType - The type of output format desired (indexed or string).
+ * @param cleanVerse - Whether to clean the verse before returning it.
+ * @return The content of the requested verse based on the output type.
  */
 export function getVerse(
   bookName: string,
   chapterNumber: number,
   verseNumber: number,
-  outputType: string = "default",
+  outputType: "default" | "indexed" | "string" = "default",
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
   cleanVerse: boolean = true,
-) {
+): Array<VerseResult> | string | string[] {
   if (!isValidVerse(bookName, chapterNumber, verseNumber)) {
     throw new Error("Invalid verse reference");
   }
   let content = bibleData[bookName][chapterNumber][verseNumber - 1];
 
   if (cleanVerse) {
-    content = parseVerse(content, "string");
+    content = parseVerse(content, "string") as string;
   }
+
   if (outputType === "indexed") {
     return [
       {
@@ -100,39 +95,40 @@ export function getVerse(
 /**
  * Retrieves information about a chapter from the Bible data.
  *
- * @param {string} bookName - The name of the book containing the chapter.
- * @param {number} chapterNumber - The number of the chapter to retrieve.
- * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
- * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
- * @return {Array|String} The information about the chapter based on the output type.
+ * @param bookName - The name of the book containing the chapter.
+ * @param chapterNumber - The number of the chapter to retrieve.
+ * @param outputType - The type of output format desired (indexed or string).
+ * @param cleanVerse - Whether to clean the verse before returning it.
+ * @return The information about the chapter based on the output type.
  */
 export function getChapter(
   bookName: string,
   chapterNumber: number,
-  outputType: string = "default",
+  outputType: "default" | "indexed" | "string" = "default",
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
   cleanVerse: boolean = true,
-) {
+): Array<VerseResult> | string | string[] {
   if (!isValidChapter(bookName, chapterNumber)) {
     throw new Error("Invalid chapter reference");
   }
-  const verses = bibleData[bookName][chapterNumber];
+  const verses = bibleData[bookName][chapterNumber] as string[];
+
   if (outputType === "indexed") {
     return verses.map((content: string, index: number) => ({
       key: `${bookName} ${chapterNumber}:${index + 1}`,
       book: bookName,
       chapter: chapterNumber.toString(),
       verse: (index + 1).toString(),
-      content: cleanVerse ? parseVerse(content, "string") : content,
+      content: cleanVerse ? (parseVerse(content, "string") as string) : content,
     }));
   } else if (outputType === "string") {
     return verses
       .map(
         (content: string, index: number) =>
           `${bookName} ${chapterNumber}:${index + 1} - ${
-            cleanVerse ? parseVerse(content, "string") : content
+            cleanVerse ? (parseVerse(content, "string") as string) : content
           }`,
       )
       .join("\n");
@@ -144,23 +140,24 @@ export function getChapter(
 /**
  * Retrieves information about a book from the Bible data.
  *
- * @param {string} bookName - The name of the book to retrieve.
- * @param {string} [outputType="default"] - The type of output format desired (indexed or string).
- * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
- * @return {Array|String|Object} The information about the book based on the output type.
+ * @param bookName - The name of the book to retrieve.
+ * @param outputType - The type of output format desired (indexed or string).
+ * @param cleanVerse - Whether to clean the verse before returning it.
+ * @return The information about the book based on the output type.
  */
 export function getBook(
   bookName: string,
-  outputType: string = "default",
+  outputType: "default" | "indexed" | "string" = "default",
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
   cleanVerse: boolean = true,
-) {
+): Array<VerseResult> | string | { [key: string]: string[] } {
   if (!isValidBook(bookName)) {
     throw new Error("Invalid book name");
   }
-  const chapters = bibleData[bookName];
+  const chapters = bibleData[bookName] as { [key: string]: string[] };
+
   if (outputType === "indexed") {
     return Object.entries(chapters).flatMap(([chapterNumber, verses]) =>
       (verses as string[]).map((content: string, index: number) => ({
@@ -168,7 +165,9 @@ export function getBook(
         book: bookName,
         chapter: chapterNumber,
         verse: (index + 1).toString(),
-        content: cleanVerse ? parseVerse(content, "string") : content,
+        content: cleanVerse
+          ? (parseVerse(content, "string") as string)
+          : content,
       })),
     );
   } else if (outputType === "string") {
@@ -178,7 +177,7 @@ export function getBook(
           .map(
             (content: string, index: number) =>
               `${bookName} ${chapterNumber}:${index + 1} - ${
-                cleanVerse ? parseVerse(content, "string") : content
+                cleanVerse ? (parseVerse(content, "string") as string) : content
               }`,
           )
           .join("\n"),
@@ -192,11 +191,11 @@ export function getBook(
 /**
  * Retrieves the number of chapters in a specific book of the Bible.
  *
- * @param {string} bookName - The name of the book.
- * @throws {Error} Throws an error if the book name is invalid.
- * @return {number} The number of chapters in the specified book.
+ * @param bookName - The name of the book.
+ * @throws Throws an error if the book name is invalid.
+ * @return The number of chapters in the specified book.
  */
-export function getChapterCount(bookName: string) {
+export function getChapterCount(bookName: string): number {
   if (!isValidBook(bookName)) {
     throw new Error("Invalid book name");
   }
@@ -206,40 +205,40 @@ export function getChapterCount(bookName: string) {
 /**
  * Retrieves the number of verses in a specific chapter of a book in the Bible.
  *
- * @param {string} bookName - The name of the book.
- * @param {number} chapterNumber - The number of the chapter.
- * @throws {Error} Throws an error if the chapter reference is invalid.
- * @return {number} The number of verses in the specified chapter.
+ * @param bookName - The name of the book.
+ * @param chapterNumber - The number of the chapter.
+ * @throws Throws an error if the chapter reference is invalid.
+ * @return The number of verses in the specified chapter.
  */
-export function getVerseCount(bookName: string, chapterNumber: number) {
+export function getVerseCount(bookName: string, chapterNumber: number): number {
   if (!isValidChapter(bookName, chapterNumber)) {
     throw new Error("Invalid chapter reference");
   }
-  return bibleData[bookName][chapterNumber].length;
+  return (bibleData[bookName][chapterNumber] as string[]).length;
 }
 
 /**
  * Retrieves the list of Bible books.
  *
- * @return {Array} An array containing the names of all the Bible books.
+ * @return An array containing the names of all the Bible books.
  */
-export function getBibleBooks() {
+export function getBibleBooks(): string[] {
   return Object.keys(bibleData);
 }
 
 /**
  * Retrieves a range of verses from the Bible based on the provided start and end references.
  *
- * @param {string} startBookName - The name of the starting book.
- * @param {number} startChapterNumber - The number of the starting chapter.
- * @param {number} startVerseNumber - The number of the starting verse.
- * @param {string} endBookName - The name of the ending book.
- * @param {number} endChapterNumber - The number of the ending chapter.
- * @param {number} endVerseNumber - The number of the ending verse.
- * @param {string} [outputType="default"] - The type of output. Can be "indexed", "string", or "default".
- * @param {boolean} [cleanVerse=true] - Whether to clean the verse before returning it.
- * @throws {Error} Throws an error if the verse reference is invalid.
- * @return {Array|string} Returns an array of verses or a string of verses depending on the outputType.
+ * @param startBookName - The name of the starting book.
+ * @param startChapterNumber - The number of the starting chapter.
+ * @param startVerseNumber - The number of the starting verse.
+ * @param endBookName - The name of the ending book.
+ * @param endChapterNumber - The number of the ending chapter.
+ * @param endVerseNumber - The number of the ending verse.
+ * @param outputType - The type of output. Can be "indexed", "string", or "default".
+ * @param cleanVerse - Whether to clean the verse before returning it.
+ * @throws Throws an error if the verse reference is invalid.
+ * @return Returns an array of verses or a string of verses depending on the outputType.
  */
 export function getRange(
   startBookName: string,
@@ -248,12 +247,12 @@ export function getRange(
   endBookName: string,
   endChapterNumber: number,
   endVerseNumber: number,
-  outputType: string = "default",
+  outputType: "default" | "indexed" | "string" = "default",
   /**
    * @deprecated Use of `cleanVerse` will be removed in a future version. Verses are now always cleaned by default.
    */
   cleanVerse: boolean = true,
-) {
+): Array<VerseResult> | string | string[] {
   if (
     !isValidVerse(startBookName, startChapterNumber, startVerseNumber) ||
     !isValidVerse(endBookName, endChapterNumber, endVerseNumber)
@@ -261,45 +260,46 @@ export function getRange(
     throw new Error("Invalid verse reference");
   }
 
-  var verses = [];
+  const verses: Array<VerseResult | string> = [];
 
-  // Get the index of the start and end books
-  var startBookIndex = getBibleBooks().indexOf(startBookName);
-  var endBookIndex = getBibleBooks().indexOf(endBookName);
+  const startBookIndex = getBibleBooks().indexOf(startBookName);
+  const endBookIndex = getBibleBooks().indexOf(endBookName);
 
-  // Iterate through the books
-  for (var bookIndex = startBookIndex; bookIndex <= endBookIndex; bookIndex++) {
-    var bookName = getBibleBooks()[bookIndex];
-    var startChapter = bookIndex === startBookIndex ? startChapterNumber : 1;
-    var endChapter =
+  for (let bookIndex = startBookIndex; bookIndex <= endBookIndex; bookIndex++) {
+    const bookName = getBibleBooks()[bookIndex];
+    const startChapter = bookIndex === startBookIndex ? startChapterNumber : 1;
+    const endChapter =
       bookIndex === endBookIndex ? endChapterNumber : getChapterCount(bookName);
 
-    // Iterate through the chapters
     for (
-      var chapterNumber = startChapter;
+      let chapterNumber = startChapter;
       chapterNumber <= endChapter;
       chapterNumber++
     ) {
-      var startVerse =
+      const startVerse =
         bookIndex === startBookIndex && chapterNumber === startChapterNumber
           ? startVerseNumber
           : 1;
-      var endVerse =
+      const endVerse =
         bookIndex === endBookIndex && chapterNumber === endChapterNumber
           ? endVerseNumber
           : getVerseCount(bookName, chapterNumber);
 
-      // Iterate through the verses
       for (
-        var verseNumber = startVerse;
+        let verseNumber = startVerse;
         verseNumber <= endVerse;
         verseNumber++
       ) {
-        let content = getVerse(bookName, chapterNumber, verseNumber)[0];
+        let content = getVerse(
+          bookName,
+          chapterNumber,
+          verseNumber,
+        )[0] as string;
 
         if (cleanVerse) {
-          content = parseVerse(content, "string");
+          content = parseVerse(content, "string") as string;
         }
+
         if (outputType === "indexed") {
           verses.push({
             key: `${bookName} ${chapterNumber}:${verseNumber}`,
@@ -322,39 +322,36 @@ export function getRange(
   if (outputType === "string") {
     return verses.join("\n");
   } else {
-    return verses;
+    return verses as Array<VerseResult> | string[];
   }
 }
 
 /**
  * Searches for a query string in each verse of the Bible and returns the matching verses.
  *
- * @param {string} query - The query string to search for.
- * @param {boolean} [caseSensitive=false] - Whether the search should be case sensitive.
- * @param {boolean} [exactMatch=false] - Whether the search should match the exact phrase.
- * @param {string} [outputType="indexed"] - The type of output format desired (indexed or string).
- * @return {Array|string} The matching verses based on the output type.
+ * @param query - The query string to search for.
+ * @param caseSensitive - Whether the search should be case sensitive.
+ * @param exactMatch - Whether the search should match the exact phrase.
+ * @param outputType - The type of output format desired (indexed or string).
+ * @return The matching verses based on the output type.
  */
 export function searchVerse(
   query: string,
   caseSensitive: boolean = false,
   exactMatch: boolean = false,
-  outputType: string = "indexed",
-) {
-  let searchResults = [];
-
-  // Normalize query based on case sensitivity
+  outputType: "indexed" | "string" = "indexed",
+): Array<VerseResult> | string {
+  const searchResults: Array<VerseResult> = [];
   const normalizedQuery = caseSensitive ? query : query.toLowerCase();
 
-  for (let book in bibleData) {
-    for (let chapter in bibleData[book]) {
-      for (let verse in bibleData[book][chapter]) {
-        const verseContent = bibleData[book][chapter][verse];
+  for (const book in bibleData) {
+    for (const chapter in bibleData[book]) {
+      for (const verse in bibleData[book][chapter]) {
+        const verseContent = bibleData[book][chapter][verse] as string;
         const normalizedContent = caseSensitive
           ? verseContent
           : verseContent.toLowerCase();
 
-        // Check for exact match or substring match
         let matchCondition;
         if (exactMatch) {
           const regex = new RegExp(
@@ -363,7 +360,7 @@ export function searchVerse(
           );
           matchCondition = regex.test(normalizedContent);
         } else {
-          matchCondition = normalizedContent.indexOf(normalizedQuery) !== -1;
+          matchCondition = normalizedContent.includes(normalizedQuery);
         }
 
         if (matchCondition) {
@@ -386,7 +383,7 @@ export function searchVerse(
           `${result.book} ${result.chapter}:${result.verse} - ${result.content}`,
       )
       .join("\n");
-  } else if (outputType === "indexed") {
+  } else {
     return searchResults;
   }
 }
@@ -394,19 +391,23 @@ export function searchVerse(
 /**
  * Resolves an abbreviation to its full name.
  *
- * @param {string} abbreviation - The abbreviation to resolve.
- * @return {string} The full name corresponding to the abbreviation.
+ * @param abbreviation - The abbreviation to resolve.
+ * @return The full name corresponding to the abbreviation.
  */
-export function resolveAbbreviation(abbreviation: string) {
+export function resolveAbbreviation(abbreviation: string): string {
   return abbreviations[abbreviation] || abbreviation;
 }
 
 /**
  * Returns an object containing the number of books, chapters, and verses in the Bible.
  *
- * @return {Object} An object with the number of books, chapters, and verses in the Bible.
+ * @return An object with the number of books, chapters, and verses in the Bible.
  */
-export function bibleStats() {
+export function bibleStats(): {
+  books: number;
+  chapters: number;
+  verses: number;
+} {
   return {
     books: Object.keys(bibleData).length,
     chapters: Object.values(bibleData).reduce(
@@ -428,29 +429,20 @@ export function bibleStats() {
 /**
  * Returns an object containing the three validation functions: `isValidBook`, `isValidChapter`, and `isValidVerse`.
  *
- * @return {Object} An object with the validation functions as properties.
+ * @return An object with the validation functions as properties.
  */
-export function bibleValidation() {
+export function bibleValidation(): {
+  isValidBook: (bookName: string) => boolean;
+  isValidChapter: (bookName: string, chapterNumber: number) => boolean;
+  isValidVerse: (
+    bookName: string,
+    chapterNumber: number,
+    verseNumber: number,
+  ) => boolean;
+} {
   return {
     isValidBook,
     isValidChapter,
     isValidVerse,
   };
 }
-
-/* module.exports = {
-  getVerse,
-  getChapter,
-  getBook,
-  getRange,
-  getChapterCount,
-  getVerseCount,
-  getBibleBooks,
-  searchVerse,
-  parseVerse,
-  resolveAbbreviation,
-  bibleStats,
-  bibleValidation: {
-    ...validators(),
-  },
-}; */

@@ -1,4 +1,3 @@
-// @ts-ignore
 const abbreviations: { [key: string]: string } = {
   Gen: "Genesis",
   Ex: "Exodus",
@@ -68,4 +67,4 @@ const abbreviations: { [key: string]: string } = {
   Rev: "Revelation",
 };
 
-module.exports = abbreviations;
+export default abbreviations;

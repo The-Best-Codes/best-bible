@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "prebuild": "rm -rf dist",
@@ -12,7 +12,7 @@
     "prepublishOnly": "bun run build",
     "test": "bun test"
   },
-  "packageManager": "bun@1.1.38",
+  "packageManager": "bun@1.1.42",
   "files": [
     "dist",
     "README.md",

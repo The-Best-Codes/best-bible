@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "rootDir": "./src",
-    "allowJs": true
+    "allowJs": true,
+    "resolveJsonModule": true
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules", "src/browser.ts"]
