@@ -15,20 +15,12 @@ We will acknowledge receipt of your report within 48 hours and will keep you inf
 
 We are committed to providing security updates for the following versions of best-bible:
 
-| Version | Supported          |
-| ------- | ------------------ |
+| Version                                | Supported          |
+| -------------------------------------- | ------------------ |
 | (_Latest version is always supported_) | :white_check_mark: |
-| 1.4.5   | :white_check_mark: |
-| 1.1.5   | :white_check_mark: |
-| 1.0.8   | :x: |
-| 1.0.7   | :x: |
-| 1.0.6   | :x: |
-| 1.0.5   | :x: |
-| 1.0.4   | :x: |
-| 1.0.3   | :x: |
-| 1.0.2   | :x: |
-| 1.0.1   | :x: |
-| 1.0.0   | :x: |
+| 1.7.0                                  | :white_check_mark: |
+| 1.4.5                                  | :white_check_mark: |
+| 1.1.5                                  | :white_check_mark: |
 
 If you are using an older version of best-bible, we strongly recommend upgrading to a supported version to ensure you receive the latest security updates.
 

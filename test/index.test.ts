@@ -1,5 +1,5 @@
-import { expect, test, describe } from "bun:test";
-import { getVerse, bibleStats, searchVerse } from "../src/index";
+import { describe, expect, test } from "bun:test";
+import { bibleStats, getVerse, searchVerse } from "../src/index";
 
 describe("Bible Verse Retrieval", () => {
   test("getVerse returns correct verse", () => {
@@ -7,13 +7,13 @@ describe("Bible Verse Retrieval", () => {
     expect(verse).toBeArray();
     expect(verse.length).toBe(1);
     expect(verse[0]).toBe(
-      "Then there arose a question between some of John's disciples and the Jews about purifying."
+      "Then there arose a question between some of John's disciples and the Jews about purifying.",
     );
   });
 
   test("getVerse handles invalid input", () => {
     expect(() => getVerse("NonExistentBook", 999, 999)).toThrow(
-      "Invalid verse reference"
+      "Invalid verse reference",
     );
   });
 });
@@ -53,7 +53,7 @@ describe("Bible Verse Search", () => {
     const results: any = searchVerse("Jesus");
     expect(results).toBeArray();
     expect(results.length).toBeGreaterThan(0);
-    results.forEach((verse) => {
+    results.forEach((verse: { content: string }) => {
       expect(verse.content.toLowerCase()).toInclude("jesus");
     });
   });
