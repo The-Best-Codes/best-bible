@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outFile": "./dist/types/index.d.ts",
-    "moduleResolution": "node",
-    "module": "amd",
-    "allowJs": true,
+    "outDir": "./dist/types",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
-    "rootDir": "./src",
-    "resolveJsonModule": true
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
-  "include": ["src/index.ts"],
-  "exclude": ["dist", "node_modules", "src/browser.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/browser.ts"]
 }

@@ -1,12 +1,12 @@
 {
   "name": "best-bible",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build:cjs": "bun build src/index.ts --outdir dist/cjs --target node --format cjs --minify",
     "build:esm": "bun build src/index.ts --outdir dist/esm --target node --format esm --minify",
-    "build:types": "tsc --project tsconfig.types.json",
+    "build:types": "tsc --project tsconfig.types.json && rm -rf dist/types/utils",
     "build:browser": "bun build src/browser.ts --outfile dist/browser/best-bible.min.js --target browser --minify",
     "build": "bun run prebuild && bun run build:cjs && bun run build:esm && bun run build:browser && bun run build:types",
     "prepublishOnly": "bun run build",
@@ -51,7 +51,7 @@
   "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
   "devDependencies": {
     "@types/bun": "^1.1.14",
-    "@types/node": "^22.10.3",
+    "@types/node": "^22.10.5",
     "bun-types": "^1.1.42",
     "typescript": "^5.7.2"
   }
