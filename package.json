@@ -8,7 +8,8 @@
     "build:esm": "bun build src/index.ts --outdir dist/esm --target node --format esm --minify",
     "build:types": "tsc --project tsconfig.types.json && rm -rf dist/types/utils",
     "build:browser": "bun build src/browser.ts --outfile dist/browser/best-bible.min.js --target browser --minify",
-    "build": "bun run prebuild && bun run build:cjs && bun run build:esm && bun run build:browser && bun run build:types",
+    "build:chrome": "bun build src/chrome.ts --outfile dist/chrome/best-bible.min.js --target browser --minify",
+    "build": "bun run prebuild && bun run build:cjs && bun run build:esm && bun run build:browser && bun run build:chrome && bun run build:types",
     "prepublishOnly": "bun run build",
     "test": "bun test"
   },
@@ -51,6 +52,7 @@
   "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
   "devDependencies": {
     "@types/bun": "^1.2.2",
+    "@types/chrome": "^0.0.304",
     "@types/node": "^22.13.1",
     "bun-types": "^1.2.2",
     "typescript": "^5.7.3"
