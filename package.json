@@ -1,7 +1,50 @@
 {
   "name": "best-bible",
   "version": "1.7.6",
+  "author": "The-Best-Codes",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Best-Codes/best-bible.git"
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "@types/chrome": "^0.1.32",
+    "@types/node": "^25.0.3",
+    "bun-types": "^1.3.5",
+    "typescript": "^5.9.3"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "browser": "./dist/browser/best-bible.min.js",
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "browser": "./dist/browser/best-bible.min.js",
+  "bugs": {
+    "url": "https://github.com/The-Best-Codes/best-bible/issues"
+  },
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
+  "keywords": [
+    "bible",
+    "jesus",
+    "christ",
+    "christian",
+    "christianity",
+    "verse",
+    "kjv"
+  ],
+  "license": "GPL-3.0-or-later",
+  "packageManager": "bun@1.3.5",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build:cjs": "bun build src/index.ts --outdir dist/cjs --target node --format cjs --minify",
@@ -13,48 +56,5 @@
     "prepublishOnly": "bun run build",
     "test": "bun test"
   },
-  "packageManager": "bun@1.3.5",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "browser": "./dist/browser/best-bible.min.js",
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js"
-    }
-  },
-  "browser": "./dist/browser/best-bible.min.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/The-Best-Codes/best-bible.git"
-  },
-  "keywords": [
-    "bible",
-    "jesus",
-    "christ",
-    "christian",
-    "christianity",
-    "verse",
-    "kjv"
-  ],
-  "author": "The-Best-Codes",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/The-Best-Codes/best-bible/issues"
-  },
-  "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
-  "devDependencies": {
-    "@types/bun": "^1.3.5",
-    "@types/chrome": "^0.1.32",
-    "@types/node": "^25.0.3",
-    "bun-types": "^1.3.5",
-    "typescript": "^5.9.3"
-  }
+  "types": "./dist/types/index.d.ts"
 }
