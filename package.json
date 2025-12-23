@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "Fetch, parse, and analyze the Bible easily with JavaScript",
   "scripts": {
     "prebuild": "rm -rf dist",
@@ -13,7 +13,7 @@
     "prepublishOnly": "bun run build",
     "test": "bun test"
   },
-  "packageManager": "bun@1.2.2",
+  "packageManager": "bun@1.3.5",
   "files": [
     "dist",
     "README.md",
@@ -51,10 +51,10 @@
   },
   "homepage": "https://github.com/The-Best-Codes/best-bible#readme",
   "devDependencies": {
-    "@types/bun": "^1.2.2",
-    "@types/chrome": "^0.0.322",
-    "@types/node": "^22.13.1",
-    "bun-types": "^1.2.2",
-    "typescript": "^5.7.3"
+    "@types/bun": "^1.3.5",
+    "@types/chrome": "^0.1.32",
+    "@types/node": "^25.0.3",
+    "bun-types": "^1.3.5",
+    "typescript": "^5.9.3"
   }
 }
