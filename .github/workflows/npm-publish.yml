@@ -19,8 +19,7 @@ jobs:
           bun-version: latest
       - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          node-version: "22.x"
-          registry-url: "https://registry.npmjs.org"
+          node-version: "24"
       - run: bun install
       - run: bun run build
       - run: npm publish --provenance --access public
