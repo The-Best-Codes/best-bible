@@ -1,6 +1,6 @@
 {
   "name": "best-bible",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "author": "The-Best-Codes",
   "repository": {
     "type": "git",
@@ -21,6 +21,10 @@
       "browser": "./dist/browser/best-bible.min.js",
       "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.js"
+    },
+    "./chrome": {
+      "types": "./dist/types/index.d.ts",
+      "browser": "./dist/chrome/best-bible.min.js"
     }
   },
   "browser": "./dist/browser/best-bible.min.js",
